@@ -434,6 +434,7 @@ button { font: inherit; color: inherit; }
 .article .wrap { max-width: 760px; }
 .article h1 { font-size: clamp(30px, 4vw, 44px); }
 .article-meta { margin: -6px 0 24px; font-size: 14px; color: var(--muted); }
+.article-sign { margin-top: 28px; font: italic 400 18px/1.5 var(--serif); color: var(--muted); }
 .article figure { margin: 28px 0; }
 .article figure img { width: 100%; height: auto; border-radius: 6px; }
 .article figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); }
