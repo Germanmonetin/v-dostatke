@@ -40,6 +40,8 @@
     "founder": { "@type": "Person", "name": "Герман Тренин", "jobTitle": "Архитектор ресурса, экономист" }
   }
   </script>
+  <!-- Счётчик посещений Umami (без cookie). Считает только на v-dostatke.com: просмотры с компьютера разработчика не попадают в статистику -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -70,10 +72,10 @@
         <a href="#about">Обо мне</a>
         <a href="#faq">Вопросы</a>
         <a href="stati/">Статьи</a>
-        <a class="nav-cta" href="#booking">Записаться на бесплатный звонок</a>
+        <a data-umami-event="Переход к записи" data-umami-event-place="меню" class="nav-cta" href="#booking">Записаться на бесплатный звонок</a>
       </nav>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Меню"><span></span><span></span></button>
-      <a class="btn btn--gold btn--small" href="#booking">Записаться</a>
+      <a data-umami-event="Переход к записи" data-umami-event-place="шапка" class="btn btn--gold btn--small" href="#booking">Записаться</a>
     </div>
   </header>
 
@@ -88,7 +90,7 @@
           <p class="lead lead--hook">Деньги есть, пока вы держите их мёртвой хваткой. Стоит ослабить — всё рассыпается.</p>
           <p class="lead">Годами книги, практики, стратегии. Результат держится, пока вы напрягаетесь, а на жизнь не остаётся ни сил, ни времени. Дело не в том, что вы мало стараетесь. Когда-то вы защитили себя от лёгких денег, и эта защита работает до сих пор. За одну сессию мы найдём, от чего именно вы защищаетесь.</p>
           <div class="cta-row">
-            <a class="btn btn--gold" href="#booking">Найти, от чего я защищаюсь</a>
+            <a data-umami-event="Переход к записи" data-umami-event-place="обложка" class="btn btn--gold" href="#booking">Найти, от чего я защищаюсь</a>
             <span class="cta-note">Бесплатный звонок, 15 минут</span>
           </div>
           <div class="proof">
@@ -143,7 +145,7 @@
             <li>Внутреннее «не получится» стихает, и вы действуете с ощущением, что результат возможен</li>
             <li>Вы начинаете замечать возможности там, где раньше видели только препятствия</li>
           </ul>
-          <div class="gains-cta"><a class="btn" href="#booking">Записаться на диагностику</a></div>
+          <div class="gains-cta"><a data-umami-event="Переход к записи" data-umami-event-place="после болей" class="btn" href="#booking">Записаться на диагностику</a></div>
         </div>
         <!-- Надпись логотипа: на телефоне показывается в конце блока, после вывода -->
         <p class="brand-intro"><b>German Trenin</b><span>Гипнотерапевт · Экономист · Архитектор ресурса</span></p>
@@ -161,7 +163,7 @@
           <p class="lead">Диагностическая сессия длится до двух часов. За это время причины выходят на поверхность: вы видите, какие события и решения стоят за вашими трудностями с деньгами, и от чего вы до сих пор себя защищаете.</p>
           <p class="lead">Вы впервые понимаете, где в вашей внутренней панели управления стоит запрет — и что с ним делать дальше. Уходите не с мотивацией на неделю, а с ясностью, которая остаётся.</p>
         </div>
-        <div class="why-cta"><a class="btn" href="#booking">Подать заявку</a></div>
+        <div class="why-cta"><a data-umami-event="Переход к записи" data-umami-event-place="одна настройка" class="btn" href="#booking">Подать заявку</a></div>
       </div>
     </section>
 
@@ -216,8 +218,8 @@
           <p>Мой путь начался с тела. Много лет я профессионально работал массажистом и видел, как боль, зажимы и напряжение возвращаются снова и снова. В какой-то момент я понял, что тело лишь показывает следствие. Причина — в страхах и настройках, которые человек не выбирал сознательно.</p>
           <p>Сначала я прошёл этот путь сам: изучал причины и следствия, искал закономерности, переставлял собственные планки. Затем получил профессиональную подготовку и собрал знания и опыт в метод работы через ресурсное состояние психики.</p>
           <blockquote class="mission">Чтобы деньги приходили без борьбы и оставались без страха.</blockquote>
-          <div class="mission-cta"><a class="btn" href="#booking">Записаться на диагностику</a></div>
-          <p class="channel-link">Telegram-канал <a class="link" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса»</a>: разборы и упражнения о деньгах.</p>
+          <div class="mission-cta"><a data-umami-event="Переход к записи" data-umami-event-place="обо мне" class="btn" href="#booking">Записаться на диагностику</a></div>
+          <p class="channel-link">Telegram-канал <a data-umami-event="Канал Telegram" data-umami-event-place="обо мне" class="link" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса»</a>: разборы и упражнения о деньгах.</p>
           <div class="facts">
             <div><b>60+</b><span>клиентов прошли работу</span></div>
             <div><b>508</b><span>часов профессиональной подготовки</span></div>
@@ -244,7 +246,7 @@
           <li class="step"><span class="n" aria-hidden="true">2</span><h3>Диагностика</h3><div class="meta">около 2 часов · стоимость обсуждаем на знакомстве</div><p>Открываем вашу внутреннюю панель и находим, где стоит планка и что её держит. Вы сами видите и чувствуете свои ограничения и уходите с ясным планом.</p></li>
           <li class="step"><span class="n" aria-hidden="true">3</span><h3>Программа</h3><div class="meta">формат под ваш запрос</div><p>Серия сессий, чтобы переставить планку и закрепить новую настройку. Состав и срок определяем по итогам диагностики.</p></li>
         </ol>
-        <div class="steps-cta"><a class="btn" href="#booking">Записаться на бесплатный звонок</a></div>
+        <div class="steps-cta"><a data-umami-event="Переход к записи" data-umami-event-place="как начать" class="btn" href="#booking">Записаться на бесплатный звонок</a></div>
       </div>
     </section>
 
@@ -257,9 +259,9 @@
           <h2 class="h2" id="gift-title">Внутренняя планка дохода</h2>
           <p class="lead">10 признаков, что ваш доход упирается не в рынок, а в настройку внутри. Отметьте, что про вас, — и станет понятнее, с чем именно стоит работать.</p>
           <div class="cta-row">
-            <a class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=gift_site" target="_blank" rel="noopener">Забрать чек-лист в Telegram</a>
+            <a data-umami-event="Чек-лист: бот" data-umami-event-place="подарок" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=gift_site" target="_blank" rel="noopener">Забрать чек-лист в Telegram</a>
           </div>
-          <p class="gift-note">Бот пришлёт PDF после подписки на канал <a href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса»</a>: там разборы и упражнения о деньгах.</p>
+          <p class="gift-note">Бот пришлёт PDF после подписки на канал <a data-umami-event="Канал Telegram" data-umami-event-place="подарок" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса»</a>: там разборы и упражнения о деньгах.</p>
         </div>
       </div>
     </section>
@@ -292,10 +294,10 @@
           <p class="note note--hours">Будни, 15:00–22:00 по Москве</p>
           <!-- Запись через бота канала (метка _site — бот покажет «Откуда: сайт»). Ссылки бота: v-dostatke_проект/ПЕРЕДАЧА_бот_для_сайта.md -->
           <div class="cta-row">
-            <a class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">Выбрать время в Telegram</a>
+            <a data-umami-event="Запись: бот" data-umami-event-place="запись" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">Выбрать время в Telegram</a>
           </div>
-          <p class="note">Удобнее переписка? <a href="https://wa.me/message/7KPN7D6KELAUF1" target="_blank" rel="noopener">Написать в WhatsApp</a> — отвечаю в течение дня.</p>
-          <p class="note">Если по какой-либо причине вы не можете открыть мессенджер и связаться со мной, напишите на почту: <a class="js-mail" data-u="germanproff148" data-d="gmail.com" href="#">germanproff148 (собака) gmail.com</a></p>
+          <p class="note">Удобнее переписка? <a data-umami-event="WhatsApp" data-umami-event-place="запись" href="https://wa.me/message/7KPN7D6KELAUF1" target="_blank" rel="noopener">Написать в WhatsApp</a> — отвечаю в течение дня.</p>
+          <p class="note">Если по какой-либо причине вы не можете открыть мессенджер и связаться со мной, напишите на почту: <a data-umami-event="Почта" data-umami-event-place="запись" class="js-mail" data-u="germanproff148" data-d="gmail.com" href="#">germanproff148 (собака) gmail.com</a></p>
           <!-- QR для тех, кто смотрит сайт с компьютера: навести камеру телефона -->
           <div class="qr">
             <p>Смотрите с компьютера? Наведите камеру телефона на нужный код.</p>
@@ -313,11 +315,11 @@
     <div class="wrap">
       <img class="footer-logo" src="img/logo-footer.webp" alt="Логотип German Trenin" width="900" height="510" loading="lazy">
       <div>
-        <p>WhatsApp: <a href="https://wa.me/message/7KPN7D6KELAUF1" target="_blank" rel="noopener">написать в чат</a></p>
-        <p>Канал: <a href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса» в Telegram</a></p>
-        <p>Записаться: <a href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">бот в Telegram</a></p>
-        <p>Почта: <a class="js-mail" data-u="germanproff148" data-d="gmail.com" href="#">germanproff148 (собака) gmail.com</a></p>
-        <p>YouTube: <a href="https://www.youtube.com/channel/UCW50AuPCr7dw3PGUld9K5xQ" target="_blank" rel="noopener">German Trenin</a></p>
+        <p>WhatsApp: <a data-umami-event="WhatsApp" data-umami-event-place="подвал" href="https://wa.me/message/7KPN7D6KELAUF1" target="_blank" rel="noopener">написать в чат</a></p>
+        <p>Канал: <a data-umami-event="Канал Telegram" data-umami-event-place="подвал" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">«Архитектор ресурса» в Telegram</a></p>
+        <p>Записаться: <a data-umami-event="Запись: бот" data-umami-event-place="подвал" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">бот в Telegram</a></p>
+        <p>Почта: <a data-umami-event="Почта" data-umami-event-place="подвал" class="js-mail" data-u="germanproff148" data-d="gmail.com" href="#">germanproff148 (собака) gmail.com</a></p>
+        <p>YouTube: <a data-umami-event="YouTube" data-umami-event-place="подвал" href="https://www.youtube.com/channel/UCW50AuPCr7dw3PGUld9K5xQ" target="_blank" rel="noopener">German Trenin</a></p>
       </div>
       <div>
         <p>Работа с ресурсным состоянием психики не является медицинской услугой и не заменяет лечение у врача.</p>

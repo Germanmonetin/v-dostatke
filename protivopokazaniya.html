@@ -11,6 +11,8 @@
   <link rel="preload" href="fonts/literata-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/golostext-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Счётчик посещений Umami (без cookie). Считает только на v-dostatke.com: просмотры с компьютера разработчика не попадают в статистику -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -19,7 +21,7 @@
   <header class="header">
     <div class="wrap">
       <a class="brand" href="./"><img class="brand-logo" src="img/logo-mark.webp" alt="" width="415" height="180"><span><b>Герман Тренин</b><small>Гипнотерапевт · Экономист · Архитектор ресурса</small></span></a>
-      <a class="btn btn--gold btn--small" href="./#booking" style="margin-left:auto">Записаться</a>
+      <a data-umami-event="Переход к записи" data-umami-event-place="шапка противопоказаний" class="btn btn--gold btn--small" href="./#booking" style="margin-left:auto">Записаться</a>
     </div>
   </header>
 
@@ -49,7 +51,7 @@
         <p>Работа с ресурсным состоянием психики не является медицинской услугой и не заменяет лечение у врача.</p>
         <p>Если у вас есть диагноз или вы сомневаетесь, проконсультируйтесь с лечащим врачом до записи.</p>
       </div>
-      <p style="margin-top:36px"><a class="btn" href="./#booking">Записаться на бесплатный звонок</a></p>
+      <p style="margin-top:36px"><a data-umami-event="Переход к записи" data-umami-event-place="противопоказания" class="btn" href="./#booking">Записаться на бесплатный звонок</a></p>
     </div>
   </main>
 
@@ -57,7 +59,7 @@
     <div class="wrap">
       <img class="footer-logo" src="img/logo-footer.webp" alt="Логотип German Trenin" width="900" height="510" loading="lazy">
       <div></div>
-      <p class="legal"><a href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">Telegram-канал</a><a href="stati/">Статьи</a><a href="./">Главная</a></p>
+      <p class="legal"><a data-umami-event="Канал Telegram" data-umami-event-place="противопоказания" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">Telegram-канал</a><a href="stati/">Статьи</a><a href="./">Главная</a></p>
       <p class="copyright">© 2026 German Trenin. All rights reserved.</p>
     </div>
   </footer>

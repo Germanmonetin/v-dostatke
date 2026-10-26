@@ -35,12 +35,14 @@
     "mainEntityOfPage": "https://v-dostatke.com/stati/chetyre-zvena-dohoda.html"
   }
   </script>
+  <!-- Счётчик посещений Umami (без cookie). Считает только на v-dostatke.com: просмотры с компьютера разработчика не попадают в статистику -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
 </head>
 <body>
   <header class="header">
     <div class="wrap">
       <a class="brand" href="../"><img class="brand-logo" src="../img/logo-mark.webp" alt="" width="415" height="180"><span><b>Герман Тренин</b><small>Гипнотерапевт · Экономист · Архитектор ресурса</small></span></a>
-      <a class="btn btn--gold btn--small" href="../#booking" style="margin-left:auto">Записаться</a>
+      <a data-umami-event="Переход к записи" data-umami-event-place="шапка статьи" class="btn btn--gold btn--small" href="../#booking" style="margin-left:auto">Записаться</a>
     </div>
   </header>
 
@@ -103,8 +105,8 @@
         <h2>Узнайте, какое звено сломано у вас</h2>
         <p>На диагностической сессии вы увидите, от чего до сих пор себя защищаете. Первый шаг — бесплатная ознакомительная беседа на 15 минут. Или начните с чек-листа: 10 признаков внутренней планки дохода.</p>
         <div class="cta-row">
-          <a class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_blog" target="_blank" rel="noopener">Выбрать время в Telegram</a>
-          <a class="btn btn--ghost" href="https://t.me/Arhitector_Resursa_bot?start=gift_blog" target="_blank" rel="noopener">Забрать чек-лист</a>
+          <a data-umami-event="Запись: бот" data-umami-event-place="статья" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_blog" target="_blank" rel="noopener">Выбрать время в Telegram</a>
+          <a data-umami-event="Чек-лист: бот" data-umami-event-place="статья" class="btn btn--ghost" href="https://t.me/Arhitector_Resursa_bot?start=gift_blog" target="_blank" rel="noopener">Забрать чек-лист</a>
         </div>
       </aside>
 
@@ -116,7 +118,7 @@
     <div class="wrap">
       <img class="footer-logo" src="../img/logo-footer.webp" alt="Логотип German Trenin" width="900" height="510" loading="lazy">
       <div></div>
-      <p class="legal"><a href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">Telegram-канал</a><a href="../">Главная</a><a href="./">Статьи</a></p>
+      <p class="legal"><a data-umami-event="Канал Telegram" data-umami-event-place="подвал статьи" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">Telegram-канал</a><a href="../">Главная</a><a href="./">Статьи</a></p>
       <p class="copyright">© 2026 German Trenin. All rights reserved.</p>
     </div>
   </footer>

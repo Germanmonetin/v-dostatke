@@ -1,3 +1,8 @@
+// ===== Статистика Umami =====
+// Ссылки и кнопки размечены в HTML атрибутом data-umami-event, а здесь — то, что открывается скриптом.
+// Если счётчик не загрузился (блокировщик рекламы, просмотр не на v-dostatke.com), ничего не происходит.
+const track = (name, data) => window.umami?.track(name, data);
+
 // ===== Видеоотзывы =====
 // Порядок = порядок показа. Первыми идут избранные (top: true): они крупнее и стоят в начале обеих лент.
 // file — номер файла video/review-N.mp4. Подписи: имя, город и одной фразой — с каким запросом пришёл человек;
@@ -77,7 +82,9 @@ function closeMini() {
 
 document.addEventListener('click', (e) => {
   const trigger = e.target.closest('[data-review]');
-  if (trigger) playReview(+trigger.dataset.review);
+  if (!trigger) return;
+  playReview(+trigger.dataset.review);
+  track('Видеоотзыв', { review: `№${reviews[current].file}`, place: trigger.classList.contains('bubble') ? 'облако отзывов' : 'обложка' });
 });
 document.getElementById('mini-prev').addEventListener('click', () => playReview(current - 1));
 document.getElementById('mini-next').addEventListener('click', () => playReview(current + 1));
@@ -113,6 +120,15 @@ document.querySelectorAll('.diploma').forEach((button) => {
     viewer.querySelector('img').alt = button.dataset.caption;
     viewer.querySelector('p').textContent = button.dataset.caption;
     viewer.showModal();
+    track('Диплом', { diploma: button.dataset.caption });
+  });
+});
+
+// ===== Частые вопросы: какие открывают =====
+// Считаем нажатие, а не событие toggle: оно срабатывает и при загрузке у вопроса, открытого по умолчанию.
+document.querySelectorAll('.faq summary').forEach((s) => {
+  s.addEventListener('click', () => {
+    if (!s.parentElement.open) track('Вопрос', { question: s.textContent });
   });
 });
 document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
