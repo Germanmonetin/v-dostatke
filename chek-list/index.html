@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Внутренний запрет на деньги — чек-лист из 10 признаков — Герман Тренин</title>
+  <meta name="description" content="10 признаков внутреннего запрета на деньги. Пройдите чек-лист за 5 минут: подсчёт баллов, зона и разбор, от чего именно вас защищает запрет.">
+  <link rel="canonical" href="https://v-dostatke.com/chek-list/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="Герман Тренин">
+  <meta property="og:title" content="Внутренний запрет на деньги — чек-лист из 10 признаков">
+  <meta property="og:description" content="Отметьте, что про вас, и узнайте, есть ли у вас внутренний запрет на деньги, насколько он сильный и от чего защищает.">
+  <meta property="og:url" content="https://v-dostatke.com/chek-list/">
+  <meta property="og:image" content="https://v-dostatke.com/img/og-logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preload" href="../fonts/literata-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/golostext-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
+  <style>
+    /* Чек-лист: узкая колонка, каждый признак — карточка со шкалой из 4 ответов; результат — тёмная панель после подсчёта */
+    .chk .wrap { max-width: 760px; }
+    .chk .eyebrow { display: block; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .chk .rules { margin-top: 24px; padding: 18px 22px; background: var(--oat); border-radius: 6px; font-size: 15px; }
+    .chk .rules p + p { margin-top: 6px; }
+    .chk-progress { position: sticky; top: var(--header-h); z-index: 6; margin: 32px 0 20px; padding: 12px 0 10px; background: var(--surface); }
+    .chk-progress .row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .chk-bar { height: 5px; margin-top: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+    .chk-bar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .35s ease; }
+    .signs { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+    .sign { padding: clamp(20px, 4vw, 30px); background: #fff; border: 1px solid var(--line); border-radius: 6px; scroll-margin-top: calc(var(--header-h) + 70px); }
+    .sign header { display: flex; gap: 16px; align-items: flex-start; }
+    .sign .num { font: 400 40px/1 var(--serif); color: var(--gold); min-width: 1.1em; }
+    .sign .tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .chk .sign h3 { margin: 4px 0 0; font: 400 clamp(21px, 2.6vw, 25px)/1.25 var(--serif); color: var(--pine); }
+    .sign .desc { margin: 14px 0 0; }
+    .probe { margin-top: 14px; padding: 10px 16px; border-left: 2px solid var(--gold); background: var(--oat); font-size: 16px; }
+    .probe b { display: block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+    .scale { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
+    .scale label { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; padding: 8px 6px; border: 1.5px solid var(--line); border-radius: 6px; cursor: pointer; text-align: center; font-size: 14px; font-weight: 500; line-height: 1.2; transition: border-color .15s, background .15s, color .15s; user-select: none; }
+    .scale label small { font-size: 12px; font-weight: 400; color: var(--muted); }
+    .scale input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .scale label:hover { border-color: var(--gold); }
+    .scale input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+    .scale label.on { background: var(--pine); border-color: var(--pine); color: #F3EFE7; }
+    .scale label.on small { color: var(--on-dark-muted); }
+    .chk-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 32px; }
+    .chk-actions .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .chk .hint { font-size: 14px; color: var(--muted); }
+    .result { margin-top: 40px; padding: clamp(26px, 5vw, 40px); background: var(--pine); color: var(--on-dark); border-radius: 6px; scroll-margin-top: 60px; }
+    .result > * + * { margin-top: 24px; }
+    .result .eyebrow { color: var(--gold-light); margin-bottom: 0; }
+    .chk .result h2 { margin: 0; font: 400 clamp(26px, 3.6vw, 34px)/1.15 var(--serif); color: #F3EFE7; }
+    .score { display: flex; align-items: baseline; flex-wrap: wrap; gap: 14px; }
+    .score .big { font: 400 clamp(60px, 10vw, 88px)/1 var(--serif); font-variant-numeric: tabular-nums; color: #F3EFE7; }
+    .score .of { color: var(--on-dark-muted); }
+    .zone { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; border-radius: 99px; background: rgba(255, 255, 255, .08); font-size: 14px; font-weight: 500; }
+    .zone i { width: 10px; height: 10px; border-radius: 50%; background: var(--zc, #fff); }
+    .meter { position: relative; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #5E8B6A 0 25%, #C2A24A 25% 50%, #C47A3A 50% 75%, #A4493A 75% 100%); }
+    .meter b { position: absolute; top: 50%; left: 0; width: 18px; height: 18px; border-radius: 50%; background: #F3EFE7; border: 3px solid var(--pine); transform: translate(-50%, -50%); transition: left .5s ease; }
+    .verdict p { max-width: 40em; color: var(--on-dark); font-size: 17px; }
+    .verdict p + p { margin-top: 12px; }
+    .clusters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+    .cl { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: rgba(255, 255, 255, .06); border-radius: 6px; min-width: 0; }
+    .cl .name { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-muted); }
+    .cl .val { font: 400 34px/1 var(--serif); font-variant-numeric: tabular-nums; color: #F3EFE7; }
+    .cl .val small { font: 400 15px var(--sans); color: var(--on-dark-muted); }
+    .cl .cbar { height: 4px; border-radius: 99px; background: rgba(255, 255, 255, .15); overflow: hidden; }
+    .cl .cbar i { display: block; height: 100%; background: var(--gold-light); }
+    .cl.top { outline: 1.5px solid var(--gold-light); }
+    .cl .lab { font-size: 13px; color: var(--on-dark-muted); }
+    .lead-cluster { padding: 12px 18px; border-left: 2px solid var(--gold-light); }
+    .lead-cluster b { display: block; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 6px; }
+    .lead-cluster p { max-width: 40em; color: var(--on-dark); }
+    .result .chk-actions { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .14); }
+    .result .hint { color: var(--on-dark-muted); }
+    .chk .foot { margin-top: 36px; font-size: 13px; color: var(--muted); }
+    @media (max-width: 560px) {
+      .scale { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .clusters { grid-template-columns: 1fr; }
+      .chk-actions .btn { align-self: stretch; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) { .chk-bar i, .meter b { transition: none; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap">
+      <a class="brand" href="../"><img class="brand-logo" src="../img/logo-mark.webp" alt="" width="415" height="180"><span><b>Герман Тренин</b><small>Гипнотерапевт · Экономист · Архитектор ресурса</small></span></a>
+      <a data-umami-event="Переход к записи" data-umami-event-place="шапка чек-листа" class="btn btn--gold btn--small" href="../#booking" style="margin-left:auto">Записаться</a>
+    </div>
+  </header>
+
+  <main class="doc chk">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Навигация"><a href="../">Главная</a> / Чек-лист</nav>
+      <span class="eyebrow">Чек-лист · 10 признаков · 5 минут</span>
+      <h1>Внутренний запрет на деньги</h1>
+      <p class="intro">Доход растёт ровно до той суммы, которую вы себе внутренне разрешаете. Этот чек-лист показывает, есть ли у вас такой запрет, насколько он сильный и от чего именно он вас защищает.</p>
+      <div class="rules">
+        <p><b>Как проходить.</b> Читайте описание признака, потом вопрос себе. Отвечайте не «как правильно», а как есть на самом деле за последний год.</p>
+        <p>Четыре варианта ответа: от «не про меня» до «это я». Ответы остаются только в вашем браузере, никуда не отправляются.</p>
+      </div>
+
+      <div class="chk-progress" aria-live="polite">
+        <div class="row"><span id="pLabel">Отвечено 0 из 10</span><span id="pHint">Начните с первого признака</span></div>
+        <div class="chk-bar"><i id="pBar"></i></div>
+      </div>
+
+      <ol class="signs" id="signs"></ol>
+
+      <div class="chk-actions">
+        <button class="btn btn--gold" id="calc" type="button" disabled>Посчитать результат</button>
+        <span class="hint" id="calcHint">Кнопка станет активной, когда ответите на все 10 признаков</span>
+      </div>
+
+      <section class="result" id="result" hidden>
+        <span class="eyebrow">Ваш результат</span>
+        <div class="score"><span class="big" id="rScore">0</span><span class="of">из 30 баллов</span><span class="zone" id="rZone"><i></i><span></span></span></div>
+        <div class="meter" aria-hidden="true"><b id="rPin"></b></div>
+        <h2 id="rTitle"></h2>
+        <div class="verdict" id="rText"></div>
+        <div>
+          <span class="eyebrow">От чего вас защищает запрет</span>
+          <div class="clusters" id="rClusters"></div>
+        </div>
+        <div class="lead-cluster" id="rLead"><b>Главная защита</b><p></p></div>
+        <div class="chk-actions">
+          <a data-umami-event="Запись: бот" data-umami-event-place="результат чек-листа" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">Записаться на бесплатный звонок · 15 минут</a>
+          <span class="hint">Расскажете о своём результате, я честно скажу, с чем здесь можно работать, а с чем нет.</span>
+          <button class="btn btn--ghost" id="reset" type="button">Пройти заново</button>
+        </div>
+      </section>
+
+      <p class="foot">Чек-лист не является диагностикой и не заменяет консультацию врача или психолога. Работа в ресурсном состоянии психики не является медицинской услугой.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <img class="footer-logo" src="../img/logo-footer.webp" alt="Логотип German Trenin" width="900" height="510" loading="lazy">
+      <div></div>
+      <p class="legal"><a data-umami-event="Канал Telegram" data-umami-event-place="подвал чек-листа" href="https://t.me/Arhitector_Resursa" target="_blank" rel="noopener">Telegram-канал</a><a href="../">Главная</a><a href="../stati/">Статьи</a></p>
+      <p class="copyright">© 2026 German Trenin. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+  const SIGNS = [
+   {c:'ceiling', tag:'Потолок', t:'Одна и та же сумма',
+    d:'Вы меняете работу, нишу, страну, а сумма на счёте к концу месяца подозрительно похожа на прошлогоднюю. Доход может даже подпрыгнуть, но потом что-то случается: клиент отваливается, появляется внезапный расход, пропадает мотивация, и всё возвращается к знакомой цифре.',
+    q:'Если честно посмотреть на три последних года: доход рос, или он колебался вокруг одной точки?'},
+   {c:'tension', tag:'Напряжение', t:'Деньги даются тяжело',
+    d:'Результат держится ровно столько, сколько вы на него давите. Отпустили на неделю, и он расползается. Отдых не получается принять как часть работы: лежите на пляже и мысленно считаете, сколько потеряли.',
+    q:'Когда вы в последний раз отдыхали два дня подряд и не чувствовали себя виноватым?'},
+   {c:'belief', tag:'Вера', t:'Курсы пройдены, а работаете как раньше',
+    d:'В заметках лежат конспекты трёх тренингов. Вы точно знаете, что нужно делать: поднять цены, вести канал, делегировать. Знание есть, оно просто не превращается в действие. Как будто информация попадает не в того человека.',
+    q:'Сколько рабочих техник из последнего курса вы применяете прямо сейчас?'},
+   {c:'ceiling', tag:'Потолок', t:'Новое не вникается',
+    d:'То, что могло бы принести деньги, вызывает странную сонливость. Открываете материал по новому направлению, и через десять минут вы уже в другом месте. При этом в ненужных вещах вы разбираетесь с лёгкостью.',
+    q:'Есть ли направление, которое «очевидно выгодно», но вы годами так и не смогли в него войти?'},
+   {c:'belief', tag:'Вера', t:'Откладываете то, что ведёт к результату',
+    d:'Список дел полон, но задача, которая прямо принесёт деньги, кочует с понедельника на понедельник. Вместо неё переделывается сайт, наводится порядок, изучается что-то «для подготовки».',
+    q:'Какая одна задача, если её сделать, даст деньги? Сколько недель она в списке?'},
+   {c:'tension', tag:'Напряжение', t:'Уступаете в цене',
+    d:'Вы знаете, сколько стоит ваша работа. Но в момент, когда надо назвать цифру, голос становится тише, а цифра меньше. Или вы называете, но тут же добавляете скидку, которую никто не просил.',
+    q:'Когда вы в последний раз назвали полную цену и спокойно замолчали, не оправдываясь?'},
+   {c:'tension', tag:'Напряжение', t:'Траты на эмоциях',
+    d:'Деньги приходят, и как будто становится некомфортно их держать. Появляется покупка, поездка, помощь кому-то, о которой потом жалеете. Счёт снова приходит к привычному, более спокойному уровню.',
+    q:'Вспомните крупную сумму, которая пришла неожиданно. Где она через три месяца?'},
+   {c:'ceiling', tag:'Потолок', t:'Деньги рядом, но недосягаемы',
+    d:'Вы видите, как это делают другие, иногда менее способные. Вы идёте в ту же сторону годами, а расстояние не меняется, как до горизонта. Усилия есть, движения нет.',
+    q:'Есть ли человек, который начинал вместе с вами и ушёл далеко вперёд? Что вы себе говорите об этом?'},
+   {c:'belief', tag:'Вера', t:'Внутри знаете, что не получится',
+    d:'Вы делаете всё правильно, и при этом где-то глубоко стоит тихая уверенность: у меня этого не будет. Не мысль, а скорее ощущение в теле. И результаты почему-то его подтверждают.',
+    q:'Представьте, что ваш доход вырос в три раза. Что первое чувствуется в теле: радость или сжатие?'},
+   {c:'belief', tag:'Вера', t:'Обстоятельства против',
+    d:'Раз за разом что-то мешает: не тот рынок, не то время, не те люди. Каждое объяснение по отдельности правдиво. Но их слишком много, и они слишком удобно приходят именно тогда, когда надо было сделать шаг.',
+    q:'Сколько раз за год «внешняя причина» остановила вас ровно перед важным решением?'}
+  ];
+  const OPTS = [['Не про меня','0'],['Иногда','1'],['Часто','2'],['Это я','3']];
+  const CL = {
+    ceiling:{name:'Потолок', lab:'доход не двигается',
+      txt:'Ваш запрет стоит на самой сумме. Психика считает определённый уровень дохода «безопасным», а всё выше него помечено как риск: там зависть, ответственность, чужие ожидания. Поэтому каждый рывок вверх тихо откатывается назад. На диагностике ищем, когда и после чего именно эта сумма стала потолком.'},
+    tension:{name:'Напряжение', lab:'деньги даются тяжело',
+      txt:'Ваш запрет стоит на лёгкости. Деньги разрешены, но только тяжёлые, заработанные через перегруз и без права на отдых. Лёгкие деньги психика не принимает: они ощущаются как незаслуженные, и вы сами от них избавляетесь скидками и тратами. На диагностике ищем, кто и когда научил вас, что лёгкое равно опасное.'},
+    belief:{name:'Вера', lab:'внутри «не получится»',
+      txt:'Ваш запрет стоит на решении о себе. Где-то давно было принято: «у таких, как я, этого не бывает». Это решение не спорит со знаниями, оно просто незаметно выключает действие ровно там, где оно привело бы к результату. На диагностике ищем ту ситуацию, в которой это решение было принято, и кем вы тогда были.'}
+  };
+  const ZONES = [
+   {max:7,  name:'Зелёная зона', color:'#5E8B6A', title:'Запрета почти нет',
+    text:['Большинство признаков не про вас. Ваш доход в основном ограничен внешними вещами: рынком, навыками, временем. С этим работают обычные инструменты: стратегия, обучение, делегирование.',
+          'Посмотрите на те два-три признака, где вы всё же ответили «часто» или «это я». Если они повторяются в одной группе ниже, это небольшая, но конкретная точка, которую можно убрать за одну сессию.']},
+   {max:15, name:'Жёлтая зона', color:'#C2A24A', title:'Запрет есть, и вы его чувствуете',
+    text:['Половина признаков совпала. Скорее всего, вы уже замечали закономерность: усилия есть, результат откатывается. Это ещё не стена, но это уже не случайность.',
+          'Важно: обучение и мотивация на этом уровне дают короткий подъём и возврат. Деньги вы потратите, запрет останется. Сначала стоит найти, что именно его держит, и только потом докупать знания.']},
+   {max:23, name:'Оранжевая зона', color:'#C47A3A', title:'Запрет стоит давно и держит крепко',
+    text:['Вы узнали себя в большинстве пунктов. Это значит, что вы много лет работаете против собственного запрета: тратите силы на усилие, а не на результат. Отсюда усталость, которую не лечит отпуск.',
+          'Хорошая новость: такой запрет почти всегда стоит на одном-двух конкретных решениях из прошлого. Их можно найти. Вы не сломаны, вы хорошо защищены. Осталось понять, от чего.']},
+   {max:30, name:'Красная зона', color:'#A4493A', title:'Вы защищены от денег надёжнее, чем от чего-либо ещё',
+    text:['Почти все признаки совпали. Скорее всего, вы уже пробовали многое, и каждая попытка подтверждала внутреннее «не получится». Это не лень и не отсутствие способностей: способности у вас, судя по всему, есть, иначе вы не дошли бы до этого чек-листа.',
+          'Такой результат обычно означает, что защита появилась рано и была действительно нужна. Сейчас она делает только одно: держит вас там, где когда-то было безопасно. Разбирать это стоит не самостоятельно и не курсом, а в работе один на один, где можно дойти до самой ситуации.']}
+  ];
+
+  const list = document.getElementById('signs');
+  list.innerHTML = SIGNS.map((s,i)=>`
+  <li class="sign" id="s${i}">
+    <header><span class="num">${i+1}</span><div><span class="tag">${s.tag}</span><h3>${s.t}</h3></div></header>
+    <p class="desc">${s.d}</p>
+    <div class="probe"><b>Вопрос себе</b>${s.q}</div>
+    <div class="scale" role="radiogroup" aria-label="Насколько это про вас">
+      ${OPTS.map(([l,v])=>`<label><input type="radio" name="q${i}" id="q${i}v${v}" value="${v}"><span>${l}</span><small>${v} ${v==='1'?'балл':(v==='0'?'баллов':'балла')}</small></label>`).join('')}
+    </div>
+  </li>`).join('');
+
+  const answers = Array(SIGNS.length).fill(null);
+  const calc = document.getElementById('calc');
+  const KEY = 'vd-checklist-v1';
+
+  function paint(){
+    const n = answers.filter(a=>a!==null).length;
+    document.getElementById('pLabel').textContent = `Отвечено ${n} из ${SIGNS.length}`;
+    document.getElementById('pBar').style.width = (n/SIGNS.length*100)+'%';
+    const next = answers.findIndex(a=>a===null);
+    document.getElementById('pHint').textContent = n===SIGNS.length ? 'Всё готово, можно считать' : (n===0 ? 'Начните с первого признака' : `Следующий: признак ${next+1}`);
+    calc.disabled = n!==SIGNS.length;
+    document.getElementById('calcHint').textContent = n===SIGNS.length ? 'Считаем сумму баллов и смотрим, от чего вас защищает запрет' : `Осталось ответить: ${SIGNS.length-n}`;
+    document.querySelectorAll('.scale label').forEach(l=>l.classList.toggle('on', l.querySelector('input').checked));
+  }
+  list.addEventListener('change', e=>{
+    if(e.target.type!=='radio') return;
+    const i = +e.target.name.slice(1);
+    answers[i] = +e.target.value;
+    try{ localStorage.setItem(KEY, JSON.stringify(answers)); }catch(_){}
+    paint();
+    const next = answers.findIndex(a=>a===null);
+    if(next>i && next!==-1 && window.innerWidth<700){ document.getElementById('s'+next).scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+
+  try{
+    const saved = JSON.parse(localStorage.getItem(KEY)||'null');
+    if(Array.isArray(saved)&&saved.length===SIGNS.length){
+      saved.forEach((v,i)=>{ if(v!==null){ answers[i]=v; const r=document.getElementById(`q${i}v${v}`); if(r) r.checked=true; } });
+    }
+  }catch(_){}
+  paint();
+
+  function score(){
+    const total = answers.reduce((a,b)=>a+b,0);
+    const per = {ceiling:[0,0],tension:[0,0],belief:[0,0]};
+    SIGNS.forEach((s,i)=>{ per[s.c][0]+=answers[i]; per[s.c][1]+=3; });
+    const zone = ZONES.find(z=>total<=z.max);
+    const R = document.getElementById('result');
+    document.getElementById('rScore').textContent = total;
+    const zEl = document.getElementById('rZone'); zEl.style.setProperty('--zc',zone.color); zEl.querySelector('span').textContent = zone.name;
+    document.getElementById('rPin').style.left = (total/30*100)+'%';
+    document.getElementById('rTitle').textContent = zone.title;
+    document.getElementById('rText').innerHTML = zone.text.map(t=>`<p>${t}</p>`).join('');
+    const keys = Object.keys(per).sort((a,b)=> (per[b][0]/per[b][1]) - (per[a][0]/per[a][1]) );
+    const top = keys[0];
+    const tie = keys.length>1 && per[keys[0]][0]/per[keys[0]][1] === per[keys[1]][0]/per[keys[1]][1];
+    document.getElementById('rClusters').innerHTML = ['ceiling','tension','belief'].map(k=>`
+      <div class="cl ${k===top&&!tie&&per[k][0]>0?'top':''}"><span class="name">${CL[k].name}</span><span class="val">${per[k][0]}<small> / ${per[k][1]}</small></span><div class="cbar"><i style="width:${per[k][0]/per[k][1]*100}%"></i></div><span class="lab">${CL[k].lab}</span></div>`).join('');
+    const lead = document.getElementById('rLead');
+    if(total===0){ lead.querySelector('p').textContent = 'Ни один признак не откликнулся. Либо запрета действительно нет, либо вы отвечали «как правильно». Попробуйте пройти ещё раз, отвечая за себя трёхлетней давности.'; }
+    else if(tie){ lead.querySelector('p').textContent = 'Две группы набрали поровну. Запрет составной: ' + CL[keys[0]].name.toLowerCase() + ' и ' + CL[keys[1]].name.toLowerCase() + ' держат друг друга. Такие связки разбираются на диагностике в первую очередь, потому что убрать одну без другой не получится.'; }
+    else { lead.querySelector('p').textContent = CL[top].txt; }
+    R.hidden = false;
+    R.scrollIntoView({behavior:'smooth',block:'start'});
+    if(window.umami) umami.track('Чек-лист: результат', {zone: zone.name, score: total});
+  }
+  calc.addEventListener('click', score);
+  document.getElementById('reset').addEventListener('click', ()=>{
+    answers.fill(null);
+    document.querySelectorAll('.scale input').forEach(r=>r.checked=false);
+    try{ localStorage.removeItem(KEY); }catch(_){}
+    document.getElementById('result').hidden = true;
+    paint();
+    document.getElementById('s0').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  </script>
+  <script src="../js/circuits.js" defer></script>
+</body>
+</html>
