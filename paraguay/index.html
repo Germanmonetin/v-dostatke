@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Гид по Парагваю</title>
+  <meta name="description" content="Офлайн-гид по Парагваю: переводчик с распознаванием речи (кастельяно и гуарани), разговорник, интерактивная карта Асунсьона и всей страны.">
+  <meta name="theme-color" content="#1f3f8f" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12151c" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Парагвай">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Знак: ньяндути — парагвайское кружево-«паутина» -->
+    <symbol id="nanduti" viewBox="-50 -50 100 100">
+      <g fill="none" stroke="currentColor" stroke-linecap="round">
+        <circle r="46" stroke-width="3"/>
+        <g stroke-width="1.6" opacity=".9">
+          <path d="M0-46V46M-46 0H46M-32.5-32.5 32.5 32.5M32.5-32.5-32.5 32.5M-17.6-42.5 17.6 42.5M17.6-42.5-17.6 42.5M-42.5-17.6 42.5 17.6M42.5-17.6-42.5 17.6"/>
+        </g>
+        <path stroke-width="2.4" d="M0-34Q6.5-25 13-31.4Q16-21 24-24Q22-14 31.4-13Q26-6.5 34 0Q26 6.5 31.4 13Q22 14 24 24Q16 21 13 31.4Q6.5 25 0 34Q-6.5 25-13 31.4Q-16 21-24 24Q-22 14-31.4 13Q-26 6.5-34 0Q-26-6.5-31.4-13Q-22-14-24-24Q-16-21-13-31.4Q-6.5-25 0-34Z"/>
+        <circle r="17" stroke-width="2.4"/>
+      </g>
+      <circle r="7" fill="var(--lapacho, #d4458a)"/>
+    </symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Zm7 9a7 7 0 0 1-14 0m7 7v2"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h13m-6-7 7 7-7 7"/></symbol>
+    <symbol id="i-speak" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9v6h4l5 4V5L8 9H4Zm12.5-.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 4 3 8l4 4M3 8h14m0 12 4-4-4-4m4 4H7"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5m11-5v5h-5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3.5 2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 16.8l-5.3 2.8 1-5.8-4.2-4.1 5.9-.9Z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M9 9h10v11H9zM5 15V4h10"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6.5"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></g><circle cx="12" cy="12" r="2.4" fill="currentColor"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></g></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></g></symbol>
+    <symbol id="t-translate" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" d="M4 5h9M8.5 3v2c0 4-2 7-5 8.5M6 9c1 2.2 3 3.8 5.5 4.5M12.5 21l4-10 4 10m-6.8-3h5.6"/></symbol>
+    <symbol id="t-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15ZM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M9 8h7"/></symbol>
+    <symbol id="t-map" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" d="M9 4 3 6.5v13.5L9 17.5l6 2.5 6-2.5V4l-6 2.5L9 4Zm0 0v13.5m6-11V20"/></symbol>
+    <symbol id="t-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-9.5v.01"/></g></symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="#translate" aria-label="Гид по Парагваю — на главную">
+      <svg class="brand-mark" aria-hidden="true"><use href="#nanduti"/></svg>
+      <span class="brand-text"><b>Парагвай</b><small>офлайн-гид</small></span>
+    </a>
+    <button class="net-pill" id="netPill" type="button" aria-live="polite">
+      <span class="dot"></span><span class="net-label">Онлайн</span>
+    </button>
+  </header>
+
+  <main id="main">
+    <!-- ПЕРЕВОДЧИК -->
+    <section class="view" id="view-translate" data-view="translate" aria-label="Переводчик">
+      <div class="langbar">
+        <div class="lang-me"><span class="lang-k">Я</span><b>Русский</b></div>
+        <svg class="langbar-swap" aria-hidden="true"><use href="#i-swap"/></svg>
+        <div class="seg" role="radiogroup" aria-label="Язык собеседника">
+          <button type="button" role="radio" data-partner="es" aria-checked="true">Кастельяно</button>
+          <button type="button" role="radio" data-partner="gn" aria-checked="false">Гуарани</button>
+        </div>
+      </div>
+
+      <button type="button" class="pack-strip" id="packStrip">
+        <span class="pack-item ok" data-pack="phrases">Разговорник</span>
+        <span class="pack-item" data-pack="asr">Распознавание речи</span>
+        <span class="pack-item" data-pack="mt">Нейроперевод</span>
+        <span class="pack-go">Настроить офлайн →</span>
+      </button>
+
+      <div class="log" id="log" aria-live="polite">
+        <div class="log-empty" id="logEmpty">
+          <svg class="empty-mark" aria-hidden="true"><use href="#nanduti"/></svg>
+          <h1>Говорите — я переведу</h1>
+          <p>Нажмите <b>«Я»</b>, чтобы сказать по-русски, или <b>«Собеседник»</b>, чтобы дать человеку ответить на кастельяно или гуарани. Можно и напечатать.</p>
+          <div class="chips" id="quickChips"></div>
+        </div>
+      </div>
+
+      <form class="composer" id="composer" autocomplete="off">
+        <div class="composer-row">
+          <label class="sr-only" for="input">Текст для перевода</label>
+          <textarea id="input" rows="1" placeholder="Текст на любом из языков…" enterkeyhint="send"></textarea>
+          <button class="icon-btn send" type="submit" aria-label="Перевести"><svg><use href="#i-send"/></svg></button>
+        </div>
+        <div class="mic-row">
+          <button type="button" class="mic mic-partner" data-speaker="partner">
+            <span class="mic-ring"></span>
+            <svg aria-hidden="true"><use href="#i-mic"/></svg>
+            <span class="mic-label"><b>Собеседник</b><small class="pl-long">кастельяно</small></span>
+          </button>
+          <button type="button" class="mic mic-me" data-speaker="me">
+            <span class="mic-ring"></span>
+            <svg aria-hidden="true"><use href="#i-mic"/></svg>
+            <span class="mic-label"><b>Я</b><small>русский</small></span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- РАЗГОВОРНИК -->
+    <section class="view" id="view-phrases" data-view="phrases" aria-label="Разговорник" hidden>
+      <div class="pb-head">
+        <h1 class="view-title">Разговорник</h1>
+        <p class="view-sub">Русский · кастельяно · гуарани — с подсказкой произношения. Работает без интернета.</p>
+        <label class="search">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="pbSearch" type="search" placeholder="Найти фразу на любом из трёх языков">
+        </label>
+        <div class="chips scroll" id="pbCats"></div>
+      </div>
+      <div class="pb-list" id="pbList"></div>
+    </section>
+
+    <!-- КАРТА -->
+    <section class="view view-map" id="view-map" data-view="map" aria-label="Карта" hidden>
+      <div id="map" class="map"></div>
+      <div class="map-top">
+        <label class="search map-search">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="mapSearch" type="search" placeholder="Место, город, категория…">
+        </label>
+        <div class="chips scroll" id="mapCats"></div>
+      </div>
+      <div class="map-fabs">
+        <div class="fab-group" role="group" aria-label="Масштаб">
+          <button type="button" class="fab txt" id="goCity" title="Асунсьон">Город</button>
+          <button type="button" class="fab txt" id="goCountry" title="Вся страна">Страна</button>
+        </div>
+        <button type="button" class="fab" id="locateBtn" title="Где я" aria-label="Где я"><svg><use href="#i-locate"/></svg></button>
+        <button type="button" class="fab" id="layerBtn" title="Слои карты" aria-label="Слои карты"><svg><use href="#i-layers"/></svg></button>
+        <button type="button" class="fab" id="routesBtn" title="Маршруты" aria-label="Маршруты"><svg><use href="#i-route"/></svg></button>
+      </div>
+      <div class="map-banner" id="mapBanner" hidden></div>
+      <div class="drawer" id="drawer" data-state="peek">
+        <button type="button" class="drawer-handle" id="drawerHandle" aria-label="Развернуть список"><span></span></button>
+        <div class="drawer-body" id="drawerBody"></div>
+      </div>
+    </section>
+
+    <!-- ПОЛЕЗНОЕ -->
+    <section class="view" id="view-info" data-view="info" aria-label="Полезное" hidden>
+      <div class="info-wrap" id="infoWrap"></div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Разделы">
+    <a href="#translate" data-tab="translate"><svg aria-hidden="true"><use href="#t-translate"/></svg><span>Переводчик</span></a>
+    <a href="#phrases" data-tab="phrases"><svg aria-hidden="true"><use href="#t-book"/></svg><span>Разговорник</span></a>
+    <a href="#map" data-tab="map"><svg aria-hidden="true"><use href="#t-map"/></svg><span>Карта</span></a>
+    <a href="#info" data-tab="info"><svg aria-hidden="true"><use href="#t-info"/></svg><span>Полезное</span></a>
+  </nav>
+
+  <!-- Полноэкранный показ фразы собеседнику -->
+  <div class="showcard" id="showcard" hidden role="dialog" aria-modal="true" aria-label="Показать собеседнику">
+    <button type="button" class="icon-btn showcard-close" id="showcardClose" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button>
+    <div class="showcard-body" id="showcardBody"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
