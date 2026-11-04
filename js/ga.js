@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var GA4_ID = ''; // ← сюда G-XXXXXXXXXX из analytics.google.com
+  var GA4_ID = 'G-4F17X3FBHV'; // ← сюда G-XXXXXXXXXX из analytics.google.com
 
   /* ---------- 1. UTM и gclid: запомнить на сессию ---------- */
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid'];
