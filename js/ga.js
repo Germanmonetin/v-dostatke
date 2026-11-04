@@ -4,7 +4,8 @@
 (function () {
   'use strict';
 
-  var GA4_ID = 'G-4F17X3FBHV'; // ← сюда G-XXXXXXXXXX из analytics.google.com
+  var GA4_ID = 'G-4F17X3FBHV'; // GA4
+  var ADS_ID = 'AW-18544627317'; // Google Ads (ремаркетинг, связка)
 
   /* ---------- 1. UTM и gclid: запомнить на сессию ---------- */
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid'];
@@ -37,6 +38,7 @@
       anonymize_ip: true,
       debug_mode: /[?&]debug_mode=1/.test(location.search) ? true : undefined
     });
+    if (ADS_ID) gtag('config', ADS_ID);
   }
 
   /* ---------- 3. Какой ссылке какое событие ---------- */
