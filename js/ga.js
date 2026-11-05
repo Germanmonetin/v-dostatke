@@ -5,7 +5,8 @@
   'use strict';
 
   var GA4_ID = 'G-4F17X3FBHV'; // GA4
-  var ADS_ID = 'AW-18544627317'; // Google Ads (ремаркетинг, связка)
+  var ADS_ID = 'AW-18544627317'; // Google Ads
+  var ADS_CONVERSION = 'AW-18544627317/y-WhCIC117EdEPWc4opF'; // конверсия «Контакты»: клик по WhatsApp / Telegram / боту
 
   /* ---------- 1. UTM и gclid: запомнить на сессию ---------- */
   var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid'];
@@ -86,6 +87,9 @@
     if (!place && section) place = section.id || section.className.split(' ')[0] || '';
 
     if (!gaOn) return;
+    if (ADS_CONVERSION && name !== 'click_channel') {
+      gtag('event', 'conversion', { send_to: ADS_CONVERSION, event_label: name, transport_type: 'beacon' });
+    }
     gtag('event', name, {
       place: place,
       link_url: a.href,
