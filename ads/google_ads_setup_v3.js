@@ -1,6 +1,6 @@
 /**
  * Google Ads Scripts v3 — пять ситуаций, алгоритм «боль → узнавание → решение».
- * УДАЛЯЕТ все существующие группы объявлений кампании и создаёт пять новых.
+ * Старые группы (не S1–S6) ставит на ПАУЗУ, не удаляет. Создаёт шесть новых.
  * Заменяет уточнения и структурированное описание. Минус-слова дополняет.
  *
  * Запуск: Скрипты → «v-dostatke setup» → стереть всё → вставить → Сохранить → Запустить.
@@ -34,6 +34,16 @@ var AD_GROUPS = [
     descriptions: [
       'Делаешь хорошую работу и сам её обесцениваешь. Это не характер — защита. Узнай, откуда.',
       'Другие платят ровно столько, во сколько ты ценишь себя и своё время. Защиту можно снять.'
+    ],
+    headlines2: [
+      ['Обесцениваешь свою работу?', 'HEADLINE_1'],
+      'Для специалистов и фрилансеров', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Цена, что не стыдно назвать',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим, когда ты решил быть дешёвым. В программе снимаем это решение.',
+      'Для тех, кто делает хорошо, а берёт мало. Видеоотзывы клиентов на сайте. Начни с 15 минут.'
     ]
   },
   {
@@ -57,6 +67,16 @@ var AD_GROUPS = [
     descriptions: [
       'Работаешь больше, а доход стоит на одной сумме, будто его держат. Держит старое решение.',
       'Курсы дают знания, а сумма возвращается. Причина глубже знаний. Узнай, откуда в тебе это.'
+    ],
+    headlines2: [
+      ['Доход стоит? Причина внутри', 'HEADLINE_1'],
+      'Для предпринимателей и бизнеса', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Привычная сумма — не предел',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим решение, которое держит сумму. В программе снимаем его. 60+ отзывов.',
+      'Для тех, кто знает, что может больше, и упёрся. Не курс по заработку. Начни с 15 минут.'
     ]
   },
   {
@@ -80,6 +100,16 @@ var AD_GROUPS = [
     descriptions: [
       'Перед тобой возможности, но что-то внутри знает: не получится. Узнай, откуда в тебе это.',
       'Откладываешь ровно то, что ведёт к результату. Это не лень — защита. Её можно снять.'
+    ],
+    headlines2: [
+      ['Откладываешь главное?', 'HEADLINE_1'],
+      'Для тех, у кого своё дело', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Важные шаги перестают пугать',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим, от чего ты себя бережёшь. В программе снимаем. Отзывы на сайте.',
+      'Для тех, кто знает, что делать, и не делает. Не тайм-менеджмент. Начни с 15 минут.'
     ]
   },
   {
@@ -102,6 +132,16 @@ var AD_GROUPS = [
     descriptions: [
       'Знаешь своё дело, но внутри кто-то ждёт разоблачения и держит цены низкими. Узнай, откуда.',
       'Синдром самозванца — не черта характера. Это давняя защита. Её можно найти и снять.'
+    ],
+    headlines2: [
+      ['Синдром самозванца: причина', 'HEADLINE_1'],
+      'Для специалистов и бизнеса', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Право на свои деньги',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим, когда ты решил, что тебя раскроют. В программе снимаем это.',
+      'Для компетентных, кто держит цены низкими. Видеоотзывы на сайте. Начни с 15 минут.'
     ]
   },
   {
@@ -124,6 +164,16 @@ var AD_GROUPS = [
     descriptions: [
       'Со стороны всё в порядке. Только ты знаешь, сколько сил уходит, чтобы так выглядело.',
       'Работаешь на износ и не можешь остановиться. Это не характер, а старое решение. Узнай.'
+    ],
+    headlines2: [
+      ['Не можешь остановиться?', 'HEADLINE_1'],
+      'Для предпринимателей', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Отдых без чувства вины',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим, кому ты доказываешь. В программе снимаем. Видеоотзывы на сайте.',
+      'Для тех, кто работает на износ и не может иначе. Не про отдых, про причину. 15 минут.'
     ]
   },
   {
@@ -147,12 +197,22 @@ var AD_GROUPS = [
     descriptions: [
       'Ставишь цену, чтобы не подумали лишнего. Отказать не можешь. Это не характер, а защита.',
       'Когда-то одобрение было безопасностью. Теперь оно решает, сколько ты зарабатываешь. Узнай.'
+    ],
+    headlines2: [
+      ['Зависишь от чужого мнения?', 'HEADLINE_1'],
+      'Для тех, у кого своё дело', 'Диагностика: находим причину', 'Программа снимает ограничение',
+      'Результат подтверждён отзывами', '60+ человек прошли работу', 'Свои решения — свои деньги',
+      'Знакомство 15 минут', 'v-dostatke.com'
+    ],
+    descriptions2: [
+      'На диагностике находим, чьё одобрение ты всё ещё ждёшь. В программе возвращаем право решать',
+      'Для тех, кто ставит цену с оглядкой. Видеоотзывы клиентов на сайте. Начни с 15 минут.'
     ]
   }
 ];
 
 var NEGATIVE_KEYWORDS_ADD = [
-  'бесплатно', 'скачать', 'pdf', 'epub', 'fb2', 'книга', 'читать онлайн', 'торрент', 'реферат', 'курсовая', 'википедия',
+  'скачать', 'pdf', 'epub', 'fb2', 'книга', 'читать онлайн', 'торрент', 'реферат', 'курсовая', 'википедия',
   'что значит', 'перевод', 'на английском', 'картинки', 'мем', 'цитаты', 'стихи', 'песня', 'фильм', 'сериал', 'вакансия',
   'резюме', 'скам', 'развод', 'лохотрон', 'москва', 'санкт-петербург', 'спб', 'россия', 'екатеринбург', 'новосибирск',
   'казань', 'рутуб', 'дзен', 'вк', 'гадание', 'таро', 'руны', 'заговор', 'молитва', 'ритуал', 'нумерология', 'астрология',
@@ -208,10 +268,9 @@ function removeOldGroups(campaign) {
   while (it.hasNext()) {
     var g = it.next();
     if (isKeepGroup(g.getName())) continue;
-    try { g.remove(); n++; report.created.push('Удалена группа ' + g.getName()); }
-    catch (e) { try { g.pause(); report.warnings.push('Не удалилась, на паузе: ' + g.getName() + ' — ' + e); } catch (e2) {} }
+    if (g.isEnabled()) { try { g.pause(); n++; report.created.push('На паузе: ' + g.getName()); } catch (e) {} }
   }
-  if (!n) report.existed.push('Старых групп не было');
+  if (!n) report.existed.push('Старых активных групп нет');
 }
 
 function addNegativeKeywords(campaign) {
@@ -230,7 +289,7 @@ function ensureAdGroup(campaign, spec) {
   var it = campaign.adGroups().get();
   while (it.hasNext()) {
     var g = it.next();
-    if (norm(g.getName()) === norm(spec.name)) { report.existed.push('Группа ' + spec.name); if (!g.isEnabled()) g.enable(); return g; }
+    if (norm(g.getName()) === norm(spec.name)) { report.existed.push('Группа ' + spec.name); if (!g.isEnabled()) g.enable(); try { g.bidding().setCpc(spec.cpc); } catch (e) {} return g; }
   }
   var op = campaign.newAdGroupBuilder().withName(spec.name).withCpc(spec.cpc).withStatus('ENABLED').build();
   if (!op.isSuccessful()) throw new Error(op.getErrors().join('; '));
@@ -278,24 +337,43 @@ function ensureGroupNegatives(ag, negatives) {
   if (added) report.created.push(ag.getName() + ': минусов группы ' + added);
 }
 
+function adSignature(headlines) {
+  return headlines.map(function (h) { return Array.isArray(h) ? h[0] : h; }).sort().join('|');
+}
+
 function ensureRsa(ag, spec) {
+  var wanted = [
+    { headlines: spec.headlines, descriptions: spec.descriptions, label: 'А (узнавание)' },
+    { headlines: spec.headlines2, descriptions: spec.descriptions2, label: 'Б (что это)' }
+  ];
+  var wantedSigs = wanted.map(function (w) { return adSignature(w.headlines); });
+  var have = {};
   var ads = ag.ads().get();
   while (ads.hasNext()) {
     var ad = ads.next();
-    try { if (ad.getType() === 'RESPONSIVE_SEARCH_AD' && !ad.isPaused()) { report.existed.push(ag.getName() + ': объявление'); return; } } catch (e) {}
+    try {
+      if (ad.getType() !== 'RESPONSIVE_SEARCH_AD') continue;
+      var hs = ad.asType().responsiveSearchAd().getHeadlines().map(function (h) { return h.text; }).sort().join('|');
+      if (wantedSigs.indexOf(hs) !== -1) { have[hs] = true; if (ad.isPaused()) ad.enable(); }
+      else if (!ad.isPaused()) { ad.pause(); report.created.push(ag.getName() + ': старое объявление на паузе'); }
+    } catch (e) {}
   }
-  var b = ag.newAd().responsiveSearchAdBuilder().withFinalUrl(FINAL_URL);
-  spec.headlines.forEach(function (h) {
-    var text = Array.isArray(h) ? h[0] : h, pin = Array.isArray(h) ? h[1] : null;
-    if (text.length > 30) { report.warnings.push(ag.getName() + ': >30 — ' + text); text = text.slice(0, 30); }
-    if (pin) b.addHeadline(text, pin); else b.addHeadline(text);
+  wanted.forEach(function (w, i) {
+    if (have[wantedSigs[i]]) { report.existed.push(ag.getName() + ': объявление ' + w.label); return; }
+    var b = ag.newAd().responsiveSearchAdBuilder().withFinalUrl(FINAL_URL);
+    w.headlines.forEach(function (h) {
+      var text = Array.isArray(h) ? h[0] : h, pin = Array.isArray(h) ? h[1] : null;
+      if (text.length > 30) { report.warnings.push(ag.getName() + ': >30 — ' + text); text = text.slice(0, 30); }
+      if (pin) b.addHeadline(text, pin); else b.addHeadline(text);
+    });
+    w.descriptions.forEach(function (d) {
+      if (d.length > 90) { report.warnings.push(ag.getName() + ': >90 — ' + d); d = d.slice(0, 90); }
+      b.addDescription(d);
+    });
+    var op = b.build();
+    if (op.isSuccessful()) report.created.push(ag.getName() + ': объявление ' + w.label);
+    else report.errors.push(ag.getName() + ' объявление ' + w.label + ': ' + op.getErrors().join('; '));
   });
-  spec.descriptions.forEach(function (d) {
-    if (d.length > 90) { report.warnings.push(ag.getName() + ': >90 — ' + d); d = d.slice(0, 90); }
-    b.addDescription(d);
-  });
-  var op = b.build();
-  if (op.isSuccessful()) report.created.push(ag.getName() + ': объявление'); else report.errors.push(ag.getName() + ' объявление: ' + op.getErrors().join('; '));
 }
 
 function replaceCallouts(campaign) {
