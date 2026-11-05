@@ -1,6 +1,7 @@
 /**
  * Google Ads Scripts v5 — девять ситуаций, у каждого объявления своя метка.
  * v5.1: вместо «экономист» — «Архитектор ресурса».
+ * v5.2: повторный запуск не добавляет уже существующие ключевые слова.
  *
  * Что нового против v4:
  *  - Новые группы: S7 «Внутренние запреты» (снятие запретов, денежные блоки),
@@ -355,22 +356,39 @@ function parseKeyword(raw) {
   return { variants: variants, mult: mult };
 }
 
+// Ключ для сравнения: тип соответствия + текст без кавычек/скобок, без регистра, ё = е.
+// Google может вернуть текст ключа не буква в букву, поэтому сравниваем по нормализованному виду.
+function kwKey(text, matchType) {
+  var t = String(text).trim();
+  var mt = matchType;
+  if (!mt) mt = t.charAt(0) === '[' ? 'EXACT' : (t.charAt(0) === '"' ? 'PHRASE' : 'BROAD');
+  t = t.replace(/^[\["+]+|[\]"]+$/g, '').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
+  return String(mt).toUpperCase() + ':' + t;
+}
+
 function ensureKeywords(ag, spec) {
-  var existing = {};
-  var it = ag.keywords().get();
-  while (it.hasNext()) existing[it.next().getText()] = true;
+  var existing = {}, have = 0;
+  var it = ag.keywords().withCondition('Status IN [ENABLED, PAUSED]').get();
+  while (it.hasNext()) {
+    var kw = it.next(), mt = null;
+    try { mt = kw.getMatchType(); } catch (e) {}
+    existing[kwKey(kw.getText(), mt)] = true; have++;
+  }
   var added = 0;
   spec.keywords.forEach(function (raw) {
     var k = parseKeyword(raw);
     k.variants.forEach(function (text) {
-      if (existing[text]) return;
+      var key = kwKey(text);
+      if (existing[key]) return;
+      existing[key] = true;
       var b = ag.newKeywordBuilder().withText(text).withFinalUrl(FINAL_URL);
       if (k.mult !== 1) b = b.withCpc(Math.round(spec.cpc * k.mult * 100) / 100);
       var op = b.build();
       if (op.isSuccessful()) added++; else report.errors.push('Ключ ' + text + ': ' + op.getErrors().join('; '));
     });
   });
-  report.created.push(ag.getName() + ': ключей ' + added);
+  if (added) report.created.push(ag.getName() + ': ключей добавлено ' + added + ' (уже было ' + have + ')');
+  else report.existed.push(ag.getName() + ': все ключи на месте (' + have + ')');
 }
 
 function ensureGroupNegatives(ag, negatives) {
