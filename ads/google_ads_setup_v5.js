@@ -2,6 +2,7 @@
  * Google Ads Scripts v5 — девять ситуаций, у каждого объявления своя метка.
  * v5.1: вместо «экономист» — «Архитектор ресурса».
  * v5.2: повторный запуск не добавляет уже существующие ключевые слова.
+ * v5.3: ключи, которых нет в списке группы, ставятся на паузу (дубли между группами).
  *
  * Что нового против v4:
  *  - Новые группы: S7 «Внутренние запреты» (снятие запретов, денежные блоки),
@@ -387,6 +388,16 @@ function ensureKeywords(ag, spec) {
       if (op.isSuccessful()) added++; else report.errors.push('Ключ ' + text + ': ' + op.getErrors().join('; '));
     });
   });
+  // Ключи, которых нет в списке группы (остались от прошлых версий), ставим на паузу — не удаляем.
+  var wantedKeys = {}, paused = [];
+  spec.keywords.forEach(function (raw) { parseKeyword(raw).variants.forEach(function (t) { wantedKeys[kwKey(t)] = true; }); });
+  var it2 = ag.keywords().withCondition('Status = ENABLED').get();
+  while (it2.hasNext()) {
+    var k2 = it2.next(), mt2 = null;
+    try { mt2 = k2.getMatchType(); } catch (e) {}
+    if (!wantedKeys[kwKey(k2.getText(), mt2)]) { try { k2.pause(); paused.push(k2.getText()); } catch (e) {} }
+  }
+  if (paused.length) report.created.push(ag.getName() + ': ключи не из списка на паузе — ' + paused.join(', '));
   if (added) report.created.push(ag.getName() + ': ключей добавлено ' + added + ' (уже было ' + have + ')');
   else report.existed.push(ag.getName() + ': все ключи на месте (' + have + ')');
 }
