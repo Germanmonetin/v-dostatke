@@ -87,9 +87,6 @@
     if (!place && section) place = section.id || section.className.split(' ')[0] || '';
 
     if (!gaOn) return;
-    if (ADS_CONVERSION && name !== 'click_channel') {
-      gtag('event', 'conversion', { send_to: ADS_CONVERSION, event_label: name, transport_type: 'beacon' });
-    }
     gtag('event', name, {
       place: place,
       link_url: a.href,
@@ -99,6 +96,19 @@
       utm_campaign: utm.utm_campaign || undefined,
       utm_content: utm.utm_content || undefined
     });
+    if (!ADS_CONVERSION || name === 'click_channel') return;
+
+    /* Конверсия Google Ads: сначала отправить, потом открыть мессенджер.
+       На телефоне t.me/wa.me уводят в приложение мгновенно — beacon может не успеть. */
+    ev.preventDefault();
+    var href = a.href, target = a.getAttribute('target') || '_self', opened = false;
+    function go() {
+      if (opened) return; opened = true;
+      if (target === '_blank') { var w = window.open(href, '_blank', 'noopener'); if (!w) location.href = href; }
+      else location.href = href;
+    }
+    gtag('event', 'conversion', { send_to: ADS_CONVERSION, event_label: name, event_callback: go });
+    setTimeout(go, 400);
   }, true);
 
   if (document.readyState === 'loading') {
