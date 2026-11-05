@@ -1,0 +1,321 @@
+/**
+ * Google Ads Scripts v3 — пять ситуаций, алгоритм «боль → узнавание → решение».
+ * УДАЛЯЕТ все существующие группы объявлений кампании и создаёт пять новых.
+ * Заменяет уточнения и структурированное описание. Минус-слова дополняет.
+ *
+ * Запуск: Скрипты → «v-dostatke setup» → стереть всё → вставить → Сохранить → Запустить.
+ * Повторный запуск безопасен (существующие новые группы не трогает).
+ */
+
+var CAMPAIGN_NAME = 'Search RU | v-dostatke';
+var FINAL_URL = 'https://v-dostatke.com';
+var KEEP_GROUP_PREFIXES = ['S1 ', 'S2 ', 'S3 ', 'S4 ', 'S5 ']; // всё остальное — удалить
+
+// 'фраза' — фразовое; '+фраза' — фразовое и точное; '|0.8' — множитель ставки
+var AD_GROUPS = [
+  {
+    name: 'S1 | Обесценивание', cpc: 1.3,
+    keywords: [
+      '+обесцениваю свою работу', 'обесценивание своего труда психология', '+как перестать обесценивать себя',
+      'занижаю стоимость своей работы', '+стыдно брать деньги за свою работу', 'стыдно просить деньги за работу',
+      'как перестать стыдиться брать деньги', 'неудобно просить деньги за работу', '+боюсь назвать цену',
+      '+боюсь назвать цену клиенту', 'страх назвать цену', 'стесняюсь называть цену',
+      'как назвать цену клиенту и не стесняться', 'всегда даю скидку не могу отказать', 'почему я работаю даром',
+      'боюсь показаться жадным', 'неловко напоминать об оплате', 'как перестать работать за копейки',
+      'работаю за копейки что делать', 'как научиться ценить себя', 'как перестать сомневаться в себе|0.7'
+    ],
+    negatives: ['скрипт', 'отработка возражений', 'менеджер по продажам', 'отдел продаж', 'холодные звонки', 'прайс', 'шаблон', 'образец письма', 'договор', 'счёт', 'себестоимость', 'наценка', 'маркетплейс', 'вайлдберриз', 'озон', 'авито', 'самооценка тест'],
+    headlines: [
+      ['Работа сделана — и обесценена', 'HEADLINE_1'],
+      'Стыдно брать деньги за работу', 'Назвал цену — и сразу скидку',
+      'Это не самооценка. Это защита', 'Так когда-то было безопаснее', 'Платят по твоей цене себе',
+      'Узнай, откуда в тебе это', 'Защиту можно найти и снять', 'Пройди диагностику'
+    ],
+    descriptions: [
+      'Делаешь хорошую работу и сам её обесцениваешь. Это не характер — защита. Узнай, откуда.',
+      'Другие платят ровно столько, во сколько ты ценишь себя и своё время. Защиту можно снять.'
+    ]
+  },
+  {
+    name: 'S2 | Доход упёрся', cpc: 1.2,
+    keywords: [
+      '+почему не растёт доход', '+почему доход стоит на месте', 'доход не растёт', 'годами стою на месте в доходе',
+      'застрял в доходе', 'застрял на одном уровне дохода', 'финансовый потолок|0.8', 'потолок дохода|0.8',
+      'как пробить финансовый потолок', '+хочу зарабатывать больше но не получается', '+много работаю а доход не растёт',
+      'работаю много а денег нет', '+почему я не могу заработать больше', 'почему не получается зарабатывать',
+      'боюсь зарабатывать больше', 'страх больших денег', 'деньги уходят сквозь пальцы психология',
+      'деньги не задерживаются психология', 'как выйти на новый уровень дохода|0.8', 'денежные блоки как убрать',
+      'установки бедности', '+внутренний запрет на деньги'
+    ],
+    negatives: ['в интернете', 'без вложений', 'на дому', 'вакансии', 'подработка', 'школьнику', 'студенту', 'пенсионеру', 'на телефоне', 'крипта', 'инвестиции', 'акции', 'ставки', 'казино', 'кредит', 'ипотека', 'налог', 'калькулятор', 'марафон желаний', 'аффирмации'],
+    headlines: [
+      ['Доход годами на одной сумме', 'HEADLINE_1'],
+      'Делаешь больше — денег нет', 'Поднялся — и снова откатило',
+      'Это не рынок и не лень', 'Сумму держит старое решение', 'Что-то внутри решило: хватит',
+      'Узнай, откуда в тебе это', 'Найди, что держит доход', 'Пройди диагностику'
+    ],
+    descriptions: [
+      'Работаешь больше, а доход стоит на одной сумме, будто его держат. Держит старое решение.',
+      'Курсы дают знания, а сумма возвращается. Причина глубже знаний. Узнай, откуда в тебе это.'
+    ]
+  },
+  {
+    name: 'S3 | Делаю всё кроме нужного', cpc: 1.0,
+    keywords: [
+      '+почему я откладываю важные дела', '+почему я всё откладываю', 'откладываю важное делаю ерунду',
+      '+делаю всё кроме главного', 'почему я не делаю то что нужно', 'не могу заставить себя начать',
+      'не могу начать важное дело', 'откладываю своё дело годами', 'откладываю жизнь на потом',
+      'прокрастинация это не лень', 'прокрастинация у взрослых как избавиться|0.8', 'прокрастинация у предпринимателя',
+      'прокрастинация фрилансера', 'хроническая прокрастинация что делать', 'прокрастинация психолог',
+      '+самосаботаж', '+почему я саботирую себя', 'саботирую себя что делать', 'самосаботаж психология причины',
+      'как перестать откладывать дела на потом|0.7', 'страх успеха', 'почему я сам разрушаю свой успех'
+    ],
+    negatives: ['студент', 'учёба', 'экзамен', 'сессия', 'диплом', 'курсовая', 'домашнее задание', 'школьник', 'подросток', 'определение', 'википедия', 'реферат', 'приложение', 'таймер', 'помодоро', 'трекер', 'тайм-менеджмент', 'мем', 'цитаты'],
+    headlines: [
+      ['Делаешь всё, кроме главного', 'HEADLINE_1'],
+      'Знаешь, что нужно. Не делаешь', 'Курс оплачен — и не пройден',
+      'Это не лень. Это защита', 'Что-то внутри знает: не выйдет', 'Так ты бережёшься от провала',
+      'Узнай, откуда в тебе это', 'Защиту можно найти и снять', 'Пройди диагностику'
+    ],
+    descriptions: [
+      'Перед тобой возможности, но что-то внутри знает: не получится. Узнай, откуда в тебе это.',
+      'Откладываешь ровно то, что ведёт к результату. Это не лень — защита. Её можно снять.'
+    ]
+  },
+  {
+    name: 'S4 | Самозванец', cpc: 1.0,
+    keywords: [
+      'синдром самозванца как избавиться|0.8', 'синдром самозванца как бороться|0.8', '+синдром самозванца психолог',
+      '+синдром самозванца у предпринимателя', 'синдром самозванца у специалиста', 'синдром самозванки',
+      '+синдром самозванца и деньги', 'чувствую себя обманщиком на работе', '+боюсь что меня раскроют',
+      'все поймут что я ничего не знаю', 'я недостаточно компетентен', '+не верю в себя что делать',
+      'не верю в себя и свои силы', 'как поверить в себя и начать своё дело', 'боюсь начать своё дело',
+      'боюсь начать новое', 'страх успеха как избавиться', 'боюсь стать заметным', 'страх стать заметной'
+    ],
+    negatives: ['определение', 'тест', 'книга', 'купить', 'фильм', 'мем', 'imposter', 'hr', 'тимлид', 'джун', 'junior', 'мюнхгаузена', 'симптомы болезни', 'подросток', 'ребёнок', 'муж', 'парень', 'отношения', 'спорт'],
+    headlines: [
+      ['Кажется, что раскроют', 'HEADLINE_1'],
+      '«Мне просто повезло»', 'Страшно стать заметным',
+      'Это не про компетентность', 'Это защита, а не правда о тебе', 'Платят по твоей цене себе',
+      'Узнай, откуда в тебе это', 'Защиту можно найти и снять', 'Пройди диагностику'
+    ],
+    descriptions: [
+      'Знаешь своё дело, но внутри кто-то ждёт разоблачения и держит цены низкими. Узнай, откуда.',
+      'Синдром самозванца — не черта характера. Это давняя защита. Её можно найти и снять.'
+    ]
+  },
+  {
+    name: 'S5 | Устал держать лицо', cpc: 0.9,
+    keywords: [
+      '+выгорание предпринимателя', 'выгорание у предпринимателей что делать', 'выгорание владельца бизнеса',
+      'выгорание самозанятого', 'выгорание фрилансера', '+устал от своего бизнеса', 'устал от бизнеса хочу всё бросить',
+      '+устал от работы но не могу остановиться', '+не могу остановиться работать', 'не могу перестать работать',
+      '+работаю на износ', 'работаю на износ что делать', 'работаю без выходных уже год', 'трудоголизм как избавиться',
+      '+не умею отдыхать', 'не умею отдыхать что делать', 'не могу расслабиться даже в отпуске',
+      '+чувство вины когда отдыхаю', '+чувство вины за отдых', 'стыдно отдыхать', 'как отдыхать без чувства вины'
+    ],
+    negatives: ['учитель', 'врач', 'медсестра', 'педагог', 'воспитатель', 'соцработник', 'сотрудников', 'hr', 'тест маслач', 'опросник', 'бойко', 'диагноз', 'больничный', 'трудовой кодекс', 'увольнение', 'мама', 'декрет', 'материнское', 'перетренированность', 'лампочка', 'экран'],
+    headlines: [
+      ['Со стороны всё в порядке', 'HEADLINE_1'],
+      'Нет кнопки «выключить»', 'Отдыхаешь — и чувствуешь вину',
+      'Только ты знаешь цену этому', 'Это не трудоголизм. Это защита', 'Отдых надо заслужить. Чьё это?',
+      'Узнай, откуда в тебе это', 'Защиту можно найти и снять', 'Пройди диагностику'
+    ],
+    descriptions: [
+      'Со стороны всё в порядке. Только ты знаешь, сколько сил уходит, чтобы так выглядело.',
+      'Работаешь на износ и не можешь остановиться. Это не характер, а старое решение. Узнай.'
+    ]
+  }
+];
+
+var NEGATIVE_KEYWORDS_ADD = [
+  'бесплатно', 'скачать', 'pdf', 'epub', 'fb2', 'книга', 'читать онлайн', 'торрент', 'реферат', 'курсовая', 'википедия',
+  'что значит', 'перевод', 'на английском', 'картинки', 'мем', 'цитаты', 'стихи', 'песня', 'фильм', 'сериал', 'вакансия',
+  'резюме', 'скам', 'развод', 'лохотрон', 'москва', 'санкт-петербург', 'спб', 'россия', 'екатеринбург', 'новосибирск',
+  'казань', 'рутуб', 'дзен', 'вк', 'гадание', 'таро', 'руны', 'заговор', 'молитва', 'ритуал', 'нумерология', 'астрология',
+  'гороскоп', 'луна', 'карма', 'порча', 'приворот', 'матрица судьбы', 'симптомы', 'таблетки', 'лечение', 'психиатр',
+  'клиника', 'депрессия', 'панические атаки', 'для детей', 'подросток', 'школьник', 'студент', 'кредит', 'займ', 'казино', 'ставки'
+];
+
+var CALLOUTS = ['15 минут бесплатно', 'Диагностика платная', 'Онлайн из любой страны', '60+ человек прошли работу'];
+var SNIPPET_HEADER = 'Услуги';
+var SNIPPET_VALUES = ['Знакомство 15 минут', 'Диагностика', 'Программа'];
+
+// ====================== ЛОГИКА ======================
+var report = { created: [], existed: [], errors: [], warnings: [] };
+
+function main() {
+  var campaign = findCampaign(CAMPAIGN_NAME);
+  if (!campaign) { Logger.log('==> Кампания не найдена.'); return; }
+  report.existed.push('Кампания ' + campaign.getName());
+
+  removeOldGroups(campaign);
+  addNegativeKeywords(campaign);
+
+  AD_GROUPS.forEach(function (spec) {
+    try {
+      var ag = ensureAdGroup(campaign, spec);
+      ensureKeywords(ag, spec);
+      ensureGroupNegatives(ag, spec.negatives);
+      ensureRsa(ag, spec);
+    } catch (e) { report.errors.push('Группа ' + spec.name + ': ' + e); }
+  });
+
+  replaceCallouts(campaign);
+  replaceSnippet(campaign);
+  printReport();
+}
+
+function norm(s) { return String(s).replace(/[«»]/g, '').replace(/\s+/g, ' ').trim().toLowerCase(); }
+
+function findCampaign(name) {
+  var it = AdsApp.campaigns().get();
+  while (it.hasNext()) { var c = it.next(); if (norm(c.getName()) === norm(name)) return c; }
+  return null;
+}
+
+function isKeepGroup(name) {
+  for (var i = 0; i < KEEP_GROUP_PREFIXES.length; i++) if (name.indexOf(KEEP_GROUP_PREFIXES[i]) === 0) return true;
+  return false;
+}
+
+function removeOldGroups(campaign) {
+  var it = campaign.adGroups().get();
+  var n = 0;
+  while (it.hasNext()) {
+    var g = it.next();
+    if (isKeepGroup(g.getName())) continue;
+    try { g.remove(); n++; report.created.push('Удалена группа ' + g.getName()); }
+    catch (e) { try { g.pause(); report.warnings.push('Не удалилась, на паузе: ' + g.getName() + ' — ' + e); } catch (e2) {} }
+  }
+  if (!n) report.existed.push('Старых групп не было');
+}
+
+function addNegativeKeywords(campaign) {
+  var existing = {};
+  var it = campaign.negativeKeywords().get();
+  while (it.hasNext()) existing[it.next().getText().replace(/^"|"$/g, '')] = true;
+  var added = 0;
+  NEGATIVE_KEYWORDS_ADD.forEach(function (kw) {
+    if (existing[kw]) return;
+    try { campaign.createNegativeKeyword('"' + kw + '"'); added++; } catch (e) { report.errors.push('Минус ' + kw + ': ' + e); }
+  });
+  report.created.push('Минус-слов кампании добавлено: ' + added);
+}
+
+function ensureAdGroup(campaign, spec) {
+  var it = campaign.adGroups().get();
+  while (it.hasNext()) {
+    var g = it.next();
+    if (norm(g.getName()) === norm(spec.name)) { report.existed.push('Группа ' + spec.name); if (!g.isEnabled()) g.enable(); return g; }
+  }
+  var op = campaign.newAdGroupBuilder().withName(spec.name).withCpc(spec.cpc).withStatus('ENABLED').build();
+  if (!op.isSuccessful()) throw new Error(op.getErrors().join('; '));
+  report.created.push('Группа ' + spec.name + ' (CPC $' + spec.cpc + ')');
+  return op.getResult();
+}
+
+function parseKeyword(raw) {
+  var exact = false, mult = 1, text = raw;
+  var m = text.match(/^(.*)\|([0-9.]+)$/);
+  if (m) { text = m[1]; mult = parseFloat(m[2]); }
+  if (text.charAt(0) === '+') { exact = true; text = text.slice(1); }
+  var variants = ['"' + text + '"'];
+  if (exact) variants.push('[' + text + ']');
+  return { variants: variants, mult: mult };
+}
+
+function ensureKeywords(ag, spec) {
+  var existing = {};
+  var it = ag.keywords().get();
+  while (it.hasNext()) existing[it.next().getText()] = true;
+  var added = 0;
+  spec.keywords.forEach(function (raw) {
+    var k = parseKeyword(raw);
+    k.variants.forEach(function (text) {
+      if (existing[text]) return;
+      var b = ag.newKeywordBuilder().withText(text).withFinalUrl(FINAL_URL);
+      if (k.mult !== 1) b = b.withCpc(Math.round(spec.cpc * k.mult * 100) / 100);
+      var op = b.build();
+      if (op.isSuccessful()) added++; else report.errors.push('Ключ ' + text + ': ' + op.getErrors().join('; '));
+    });
+  });
+  report.created.push(ag.getName() + ': ключей ' + added);
+}
+
+function ensureGroupNegatives(ag, negatives) {
+  var existing = {};
+  var it = ag.negativeKeywords().get();
+  while (it.hasNext()) existing[it.next().getText().replace(/^"|"$/g, '')] = true;
+  var added = 0;
+  negatives.forEach(function (kw) {
+    if (existing[kw]) return;
+    try { ag.createNegativeKeyword('"' + kw + '"'); added++; } catch (e) { report.errors.push('Минус группы ' + kw + ': ' + e); }
+  });
+  if (added) report.created.push(ag.getName() + ': минусов группы ' + added);
+}
+
+function ensureRsa(ag, spec) {
+  var ads = ag.ads().get();
+  while (ads.hasNext()) {
+    var ad = ads.next();
+    try { if (ad.getType() === 'RESPONSIVE_SEARCH_AD' && !ad.isPaused()) { report.existed.push(ag.getName() + ': объявление'); return; } } catch (e) {}
+  }
+  var b = ag.newAd().responsiveSearchAdBuilder().withFinalUrl(FINAL_URL);
+  spec.headlines.forEach(function (h) {
+    var text = Array.isArray(h) ? h[0] : h, pin = Array.isArray(h) ? h[1] : null;
+    if (text.length > 30) { report.warnings.push(ag.getName() + ': >30 — ' + text); text = text.slice(0, 30); }
+    if (pin) b.addHeadline(text, pin); else b.addHeadline(text);
+  });
+  spec.descriptions.forEach(function (d) {
+    if (d.length > 90) { report.warnings.push(ag.getName() + ': >90 — ' + d); d = d.slice(0, 90); }
+    b.addDescription(d);
+  });
+  var op = b.build();
+  if (op.isSuccessful()) report.created.push(ag.getName() + ': объявление'); else report.errors.push(ag.getName() + ' объявление: ' + op.getErrors().join('; '));
+}
+
+function replaceCallouts(campaign) {
+  var keep = {};
+  try {
+    var ci = campaign.extensions().callouts().get();
+    while (ci.hasNext()) {
+      var c = ci.next();
+      if (CALLOUTS.indexOf(c.getText()) !== -1) keep[c.getText()] = true;
+      else { try { campaign.removeCallout(c); } catch (e) {} }
+    }
+  } catch (e) {}
+  CALLOUTS.forEach(function (t) {
+    if (keep[t]) return;
+    try {
+      var op = AdsApp.extensions().newCalloutBuilder().withText(t).build();
+      if (op.isSuccessful()) { campaign.addCallout(op.getResult()); report.created.push('Уточнение ' + t); }
+      else report.errors.push('Уточнение ' + t + ': ' + op.getErrors().join('; '));
+    } catch (e) { report.errors.push('Уточнение ' + t + ': ' + e); }
+  });
+}
+
+function replaceSnippet(campaign) {
+  try {
+    var ok = false;
+    var sn = campaign.extensions().snippets().get();
+    while (sn.hasNext()) {
+      var sp = sn.next();
+      if (sp.getHeader() === SNIPPET_HEADER && sp.getValues().join('|') === SNIPPET_VALUES.join('|')) ok = true;
+      else { try { campaign.removeSnippet(sp); } catch (e) {} }
+    }
+    if (!ok) {
+      var op = AdsApp.extensions().newSnippetBuilder().withHeader(SNIPPET_HEADER).withValues(SNIPPET_VALUES).build();
+      if (op.isSuccessful()) { campaign.addSnippet(op.getResult()); report.created.push('Структ. описание'); }
+      else report.errors.push('Структ. описание: ' + op.getErrors().join('; '));
+    }
+  } catch (e) { report.errors.push('Структ. описание: ' + e); }
+}
+
+function printReport() {
+  Logger.log('========== ИТОГ ==========');
+  Logger.log('СОЗДАНО:\n  ' + (report.created.join('\n  ') || '—'));
+  Logger.log('УЖЕ БЫЛО:\n  ' + (report.existed.join('\n  ') || '—'));
+  Logger.log('ПРЕДУПРЕЖДЕНИЯ:\n  ' + (report.warnings.join('\n  ') || '—'));
+  Logger.log('ОШИБКИ:\n  ' + (report.errors.join('\n  ') || '—'));
+}
