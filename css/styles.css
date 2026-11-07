@@ -166,13 +166,16 @@ button { font: inherit; color: inherit; }
 /* Пары: слева боль (крупно), справа на овсяной полосе — что меняется после работы */
 .compare { margin-top: 40px; }
 .compare-head { display: grid; grid-template-columns: 1fr 1fr; margin: 0 0 10px; font: 600 13px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.compare-head span:last-child { padding-left: 24px; color: var(--sage-deep); }
+.compare-head span:last-child { padding-left: 28px; color: var(--gold); }
 .compare-list { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
 .compare-list li { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
 .compare-list .now { position: relative; padding: 18px 32px 18px 30px; font: 400 clamp(18px, 1.6vw, 21px)/1.45 var(--serif); color: var(--pine); }
 .compare-list .now::before { content: ""; position: absolute; left: 0; top: 31px; width: 16px; height: 2px; background: var(--gold); }
-.compare-list .after { position: relative; display: flex; align-items: center; padding: 18px 24px 18px 56px; background: var(--oat); font-size: 17px; line-height: 1.5; color: var(--sage-deep); }
-.compare-list .after::before { content: "→"; position: absolute; left: 24px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--gold); }
+/* Результат — тёмно-зелёная колонка со светлым текстом с засечками: должен вдохновлять, а не теряться */
+.compare-list .after { position: relative; display: flex; align-items: center; padding: 20px 28px 20px 60px; background: var(--sage-deep); font: 500 clamp(18px, 1.6vw, 21px)/1.45 var(--serif); color: #F6F2E8; }
+.compare-list li:first-child .after { border-top-right-radius: 10px; }
+.compare-list li:last-child .after { border-bottom-right-radius: 10px; }
+.compare-list .after::before { content: "→"; position: absolute; left: 26px; top: 50%; transform: translateY(-50%); font: 400 24px/1 var(--sans); color: var(--gold-light); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .gains-cta { margin-top: 32px; }
 
@@ -391,10 +394,10 @@ button { font: inherit; color: inherit; }
   .compare-list li { grid-template-columns: 1fr; padding-bottom: 16px; }
   .compare-list .now { padding: 16px 0 10px 30px; }
   /* Результат — отдельная карточка с подписью «После работы», чтобы не сливался с болью */
-  .compare-list .after { display: block; padding: 12px 16px 14px 18px; border-left: 3px solid var(--sage-deep); border-radius: 0 6px 6px 0; background: #E2EAE3; font-size: 16px; font-weight: 500; color: var(--pine); }
+  .compare-list .after, .compare-list li:first-child .after, .compare-list li:last-child .after { display: block; padding: 14px 18px 16px; border-left: 3px solid var(--gold-light); border-radius: 0 8px 8px 0; background: var(--sage-deep); font: 500 18px/1.45 var(--serif); color: #F6F2E8; }
   .compare-list .after::before { display: none; }
-  .compare-list .after .sr { position: static; display: block; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; margin-bottom: 4px; font: 600 11px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--sage-deep); }
-  .compare-list .after .sr::after { content: " →"; color: var(--gold); letter-spacing: 0; }
+  .compare-list .after .sr { position: static; display: block; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; margin-bottom: 6px; font: 600 11px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-light); }
+  .compare-list .after .sr::after { content: " →"; color: var(--gold-light); letter-spacing: 0; }
   .steps::before { display: none; }
   .step { padding-top: 0; padding-left: 44px; }
   .step .n { left: 0; }
