@@ -183,6 +183,8 @@ button { font: inherit; color: inherit; }
 .why .why-note .lead { color: var(--pine); }
 .why .why-note .lead + .lead { margin-top: 14px; }
 .why-cta { margin-top: 32px; }
+/* Вторая строка заголовка «Ты управляешь многим.» — чуть мельче первой */
+.h2-second { font-size: .8em; }
 
 /* ---------- Как это работает ---------- */
 .how { background: var(--pine); color: var(--on-dark); }
