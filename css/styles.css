@@ -276,7 +276,8 @@ button { font: inherit; color: inherit; }
 .steps-cta { margin-top: 48px; }
 
 /* ---------- Подарок: чек-лист ---------- */
-.gift { background: var(--pine); color: var(--on-dark); }
+/* Чек-лист стоит перед тёмным блоком записи — фон другого зелёного, чтобы они не сливались */
+.gift { background: var(--sage-deep); color: var(--on-dark); }
 .gift-grid { display: grid; grid-template-columns: minmax(0, .55fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
 .gift-cover { width: 100%; max-width: 320px; justify-self: end; border-radius: 6px; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .6), 0 0 0 1px rgba(210, 174, 99, .35); transform: rotate(-2deg); }
 .gift-kicker { margin: 0 0 10px; font-size: 14px; color: var(--gold-light); }
