@@ -240,7 +240,9 @@ button { font: inherit; color: inherit; }
 .mini-close { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(20, 28, 24, .6); color: #fff; font-size: 20px; cursor: pointer; }
 
 /* ---------- Обо мне ---------- */
-.about { background: var(--surface); }
+/* Порядок: отзывы (фон oat) → «Как начать» (surface) → «Обо мне» (oat) → чек-лист (тёмный) */
+.steps-section { background: var(--surface); }
+.about { background: var(--oat); }
 .about .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
 .about-photo { position: sticky; top: calc(var(--header-h) + 26px); }
 .about-photo img { width: 100%; border-radius: 4px; }
