@@ -1,0 +1,7 @@
+# Сайт — обычные HTML-файлы, Jekyll их не меняет (в них нет front matter).
+# Jekyll включён только для того, чтобы служебные файлы репозитория НЕ публиковались на v-dostatke.com.
+exclude:
+  - CLAUDE.md
+  - "*.md"
+  - ads
+  - README*
