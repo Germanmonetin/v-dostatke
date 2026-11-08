@@ -92,9 +92,12 @@ button { font: inherit; color: inherit; }
 .brand-text b { font: 500 17px/1.1 var(--serif); letter-spacing: .14em; text-transform: uppercase; color: var(--gold-light); }
 .brand-text small { font-size: 12px; letter-spacing: .03em; color: var(--on-dark-muted); opacity: 1; margin-top: 6px; white-space: nowrap; }
 .nowrap { white-space: nowrap; }
-/* На планшетах подпись под именем переносится на две строки, чтобы не выталкивать кнопку «Записаться» за край */
-@media (max-width: 1000px) { .brand-text small { white-space: normal; max-width: 230px; line-height: 1.35; } }
-@media (max-width: 760px) { .brand-text small { max-width: 170px; } }
+/* Планшеты: знак поменьше, подпись в две строки («Гипнотерапевт · Экономист ·» / «Денежный психолог») — чтобы кнопка «Записаться» не уезжала за край */
+@media (min-width: 641px) and (max-width: 900px) {
+  .header--cover .brand-mark { width: 170px; }
+  .header .wrap { gap: 18px; }
+  .brand-text small { white-space: normal; max-width: 190px; line-height: 1.4; }
+}
 .brand b { display: block; font: 500 19px/1.1 var(--serif); white-space: nowrap; color: #F3EFE7; }
 .brand small { display: block; font-size: 12.5px; color: var(--gold-light); opacity: .85; margin-top: 3px; }
 .nav { display: flex; gap: 22px; margin-left: auto; font-size: 15px; white-space: nowrap; }
@@ -389,7 +392,6 @@ button { font: inherit; color: inherit; }
   .header--cover ~ main .cover-title { padding-top: 36px; }  .brand-intro { display: block; margin: 40px 0 0; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; }
   .brand-intro b { display: block; font: 500 20px/1.2 var(--serif); letter-spacing: .14em; text-transform: uppercase; color: #7E5F26; }
   .brand-intro span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--muted); }
-  .brand-intro .nowrap { display: inline; margin: 0; }
   /* На телефоне кнопка записи переезжает в меню: на обложке есть большая кнопка */
   .header .btn--small { display: none; }
   .nav .nav-cta { display: block; margin-top: 12px; padding: 14px; border: 0; border-radius: 6px; background: var(--gold-light); color: var(--pine); text-align: center; font-weight: 500; }
