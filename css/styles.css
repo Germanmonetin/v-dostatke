@@ -397,6 +397,7 @@ button { font: inherit; color: inherit; }
   .header--cover ~ main .cover-title { padding-top: 36px; }  .brand-intro { display: block; margin: 40px 0 0; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; }
   .brand-intro b { display: block; font: 500 20px/1.2 var(--serif); letter-spacing: .14em; text-transform: uppercase; color: #7E5F26; }
   .brand-intro span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .brand-intro span.nowrap { display: inline; margin: 0; }
   /* На телефоне кнопка записи переезжает в меню: на обложке есть большая кнопка */
   .header .btn--small { display: none; }
   .nav .nav-cta { display: block; margin-top: 12px; padding: 14px; border: 0; border-radius: 6px; background: var(--gold-light); color: var(--pine); text-align: center; font-weight: 500; }
