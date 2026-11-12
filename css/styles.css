@@ -117,6 +117,13 @@ button { font: inherit; color: inherit; }
     radial-gradient(ellipse 55% 70% at 78% 72%, rgba(210, 174, 99, .16), transparent 70%),
     radial-gradient(ellipse 80% 70% at 25% 55%, #2B3B32, transparent 70%),
     #1A241F; }
+/* Плавный переход от тёмного первого экрана к светлому блоку болей (#solution, фон --surface):
+   полоса внизу обложки, тёмное постепенно светлеет до цвета следующего блока */
+.cover::after { content: ""; display: block; height: clamp(160px, 19vw, 260px);
+  background: linear-gradient(to bottom,
+    rgba(31, 44, 37, 0) 0%, rgba(38, 53, 45, .6) 16%, #33463C 30%, #52665A 44%,
+    #8A998E 58%, #C2CAC0 72%, #E6E8E1 86%, var(--surface) 100%); }
+.cover + .solution { padding-top: clamp(40px, 6vw, 88px); }
 /* Под крупным логотипом заголовок начинается ниже */
 .header--cover ~ main .cover-title { padding-top: 72px; }
 .cover-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); grid-template-areas: "title title" "text photo"; column-gap: clamp(32px, 5vw, 72px); }
