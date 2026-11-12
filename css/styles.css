@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; }
 .cover-text { grid-area: text; align-self: start; padding: 30px 0 clamp(56px, 7vw, 96px); }
 .cover .lead { color: var(--on-dark-muted); margin: 0 0 34px; }
 /* Первая фраза подзаголовка — крючок: светлее и чуть крупнее основного текста */
-.cover .lead--hook { margin-bottom: 14px; color: #F3EFE7; font: italic 400 clamp(20px, 1.9vw, 24px)/1.4 var(--serif); }
+.cover .lead--hook { margin-bottom: 14px; color: #F3EFE7; font: italic 400 clamp(20px, 1.9vw, 24px)/1.4 var(--serif); text-wrap: pretty; }
 /* Фото начинается сразу под заголовком, чуть правее, и уходит в нижний край обложки */
 .cover-photo { grid-area: photo; position: relative; margin: 0; padding: 0 12% 0 14%; align-self: end; }
 .cover-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%; border-radius: 999px 999px 0 0; filter: saturate(.9);
@@ -482,23 +482,25 @@ button { font: inherit; color: inherit; }
 .yt-play::after { content: ""; position: absolute; left: 27px; top: 22px; border-left: 20px solid var(--gold-light); border-top: 12px solid transparent; border-bottom: 12px solid transparent; }
 .yt:hover .yt-play { background: rgba(26, 36, 31, .95); }
 
-/* ===== Закреплённая панель связи на телефоне (index.html, js/main.js) ===== */
-.contact-bar { display: none; }
+/* ===== Кнопки связи: панель на телефоне (.contact-bar) и плавающие кнопки на компьютере (.contact-float) =====
+   Видимость — класс .is-visible (js/main.js). --consent-offset — высота баннера cookie: пока он на экране, кнопки над ним. */
+.contact-bar, .contact-float { display: none; }
+.contact-bar a:focus-visible, .contact-float a:focus-visible { outline: 3px solid #F3EFE7; outline-offset: 3px; }
 @media (max-width: 768px) {
-  .contact-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; gap: 10px;
+  .contact-bar { position: fixed; left: 0; right: 0; bottom: var(--consent-offset, 0px); z-index: 30; display: flex; gap: 10px;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
     background: rgba(24, 33, 28, .88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid rgba(210, 174, 99, .55);
-    transform: translateY(110%); transition: transform .25s ease; }
+    transform: translateY(calc(100% + var(--consent-offset, 0px) + 2px)); transition: transform .25s ease, bottom .25s ease; }
   .contact-bar.is-visible { transform: none; }
   .contact-bar a { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; border-radius: 6px; text-decoration: none; }
-  .cb-main { flex: 0 0 calc(65% - 5px); padding: 6px 12px; background: var(--gold-light); color: var(--pine); }
+  .cb-main { position: relative; overflow: hidden; flex: 0 0 calc(65% - 5px); padding: 6px 12px; background: var(--gold-light); color: var(--pine); }
   .cb-main:active { background: #DDBC78; }
   .cb-wa { flex: 1 1 auto; padding: 6px 10px; background: var(--pine); color: #F3EFE7; border: 1px solid rgba(210, 174, 99, .7); font-size: 15px; font-weight: 500; }
   .cb-ico { width: 22px; height: 22px; flex: none; }
   .cb-text { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
   .cb-text b { font-size: 16px; font-weight: 600; }
-  .cb-text small { margin-top: 2px; font-size: 12.5px; opacity: .8; }
+  .cb-text small { margin-top: 2px; font-size: 12.5px; color: #2E3A33; }
   body.has-contact-bar { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
 @media (max-width: 380px) {
@@ -511,5 +513,44 @@ button { font: inherit; color: inherit; }
   .cb-text small { font-size: 11.5px; }
   .cb-wa { font-size: 14px; }
 }
-@media (prefers-reduced-motion: reduce) { .contact-bar { transition: none; } }
+@media (min-width: 769px) {
+  .contact-float { position: fixed; right: 24px; bottom: calc(24px + var(--consent-offset, 0px)); z-index: 30; display: flex; align-items: center; gap: 10px;
+    opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .25s ease, transform .25s ease, bottom .25s ease; }
+  .contact-float.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+  .contact-float a { display: flex; align-items: center; justify-content: center; height: 52px; text-decoration: none;
+    box-shadow: 0 10px 24px -12px rgba(15, 22, 18, .55); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+  .contact-float a:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(15, 22, 18, .6); }
+  .cf-main { position: relative; overflow: hidden; gap: 10px; padding: 0 22px 0 18px; border-radius: 999px; background: var(--gold-light); color: var(--pine); font-size: 15.5px; font-weight: 600; white-space: nowrap; }
+  .cf-main:hover { background: #DDBC78; }
+  .cf-wa { position: relative; width: 52px; border-radius: 50%; background: var(--pine); color: #F3EFE7; border: 1px solid rgba(210, 174, 99, .8); }
+  .cf-wa .cb-ico { width: 24px; height: 24px; }
+  .cf-main .cb-ico { width: 22px; height: 22px; }
+  /* Подсказка «Написать в WhatsApp» */
+  .cf-wa::after { content: attr(data-tip); position: absolute; right: 0; bottom: calc(100% + 10px); padding: 7px 11px; border-radius: 6px;
+    background: var(--pine); color: #F3EFE7; font-size: 13px; white-space: nowrap; opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity .15s, transform .15s; }
+  .cf-wa:hover::after, .cf-wa:focus-visible::after { opacity: 1; transform: none; }
+}
+/* Один мягкий золотой блик по главной кнопке — раз за визит, через 25 с (js/main.js) */
+.cb-main::before, .cf-main::before { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 45%; pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 248, 225, 0) 0%, rgba(255, 248, 225, .75) 50%, rgba(255, 248, 225, 0) 100%);
+  transform: skewX(-18deg); opacity: 0; }
+.is-shine::before { animation: cb-shine 1s ease-out 1; }
+@keyframes cb-shine { 0% { left: -60%; opacity: 1; } 100% { left: 120%; opacity: 1; } }
+
+/* ===== Баннер согласия на cookie (создаётся в js/ga.js) ===== */
+.consent { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 40; max-width: 560px; margin: 0 auto;
+  padding: 14px 16px; border: 1px solid rgba(210, 174, 99, .55); border-radius: 10px; background: #18211C; color: #ECE8E0;
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .6); font-size: 14px; line-height: 1.45; }
+.consent p { margin: 0 0 12px; }
+.consent a { color: #F3EFE7; text-decoration-color: var(--gold-light); text-underline-offset: 3px; }
+.consent-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.consent-btns button { min-height: 44px; padding: 8px 10px; border: 1px solid var(--gold-light); border-radius: 6px; background: transparent; color: #F3EFE7; font: 500 14.5px/1.2 var(--sans); cursor: pointer; }
+.consent-btns button:hover { background: rgba(210, 174, 99, .14); }
+.consent-btns button:focus-visible { outline: 3px solid #F3EFE7; outline-offset: 2px; }
+@media (min-width: 769px) { .consent { left: 24px; right: auto; bottom: 24px; margin: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-bar, .contact-float, .contact-float a { transition: none; }
+  .is-shine::before { animation: none; }
+}
 

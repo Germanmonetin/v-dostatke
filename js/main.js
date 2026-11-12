@@ -43,7 +43,7 @@ document.querySelectorAll('.cloud-row').forEach((row, r) => {
     <button type="button" class="bubble" data-review="${i}"
       style="--s:${size}px; margin-top:${(k % 3) * 10}px"
       aria-label="Смотреть видеоотзыв ${i + 1}">
-      <img src="${reviews[i].face}" alt="" width="128" height="128" loading="lazy"><span class="pl"></span>
+      <img src="${reviews[i].face}" alt="Видеоотзыв: ${reviews[i].name || reviews[i].topic || 'клиент ' + (i + 1)}" width="128" height="128" loading="lazy"><span class="pl"></span>
     </button>`;
   }).join('');
   // Половина ленты (два набора) шире любого экрана; вторая половина — её копия для бесшовного движения
@@ -179,28 +179,56 @@ document.querySelectorAll('.js-mail').forEach((a) => {
   a.textContent = addr;
 });
 
-// ===== Закреплённая панель связи на телефоне =====
-// Видна, когда кнопка «Хочу найти причину» первого экрана осталась выше экрана; прячется, когда на экране блок #booking
+// ===== Кнопки связи: панель на телефоне и плавающие кнопки на компьютере =====
+// Видны, когда кнопка «Хочу найти причину» первого экрана осталась выше экрана; прячутся, когда на экране блок #booking
 // (там свои такие же кнопки), в открытом меню и пока открыт видеоотзыв (#mini) или диплом (#viewer).
-// Положение считаем по прокрутке (а не IntersectionObserver): так работает и при резком переходе по якорю.
+// На компьютере ещё и над видеоотзывами и вопросами, чтобы не закрывать их. Положение считаем по прокрутке —
+// так работает и при резком переходе по якорю. Раз за визит, через 25 с, по главной кнопке проходит золотой блик.
 (() => {
-  const bar = document.getElementById('contact-bar');
+  const groups = [...document.querySelectorAll('.js-contact')];
   const heroBtn = document.querySelector('.cover .cta-row .btn');
   const booking = document.getElementById('booking');
-  if (!bar || !heroBtn || !booking) return;
+  if (!groups.length || !heroBtn || !booking) return;
   document.body.classList.add('has-contact-bar');
   const mini = document.getElementById('mini');
   const viewer = document.getElementById('viewer');
   const header = document.querySelector('.header');
+  const desktop = window.matchMedia('(min-width: 769px)');
+  const avoidOnDesktop = ['reviews', 'faq'].map((id) => document.getElementById(id)).filter(Boolean);
+  let shown = false;
+  let shineReady = false;
+  let shineDone = false;
+  try { shineDone = sessionStorage.getItem('vd_shine') === '1'; } catch (e) {}
+
+  const shine = () => {
+    if (shineDone || !shineReady || !shown) return;
+    shineDone = true;
+    try { sessionStorage.setItem('vd_shine', '1'); } catch (e) {}
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.cb-main, .cf-main').forEach((a) => {
+      a.classList.add('is-shine');
+      a.addEventListener('animationend', () => a.classList.remove('is-shine'), { once: true });
+    });
+  };
+  setTimeout(() => { shineReady = true; shine(); }, 25000);
+
   const update = () => {
     const h = window.innerHeight;
     const pastHero = heroBtn.getBoundingClientRect().bottom < 0;
     const b = booking.getBoundingClientRect();
     const atBooking = b.top < h * 0.75 && b.bottom > h * 0.25;
     const modal = (mini && !mini.hidden) || (viewer && viewer.open) || (header && header.classList.contains('menu-open'));
-    const show = pastHero && !atBooking && !modal;
-    if (bar.classList.contains('is-visible') !== show) bar.classList.toggle('is-visible', show);
-    bar.inert = !show;
+    // На компьютере кнопки в правом нижнем углу: не закрываем видеоотзывы и вопросы
+    const covers = desktop.matches && avoidOnDesktop.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top < h - 20 && r.bottom > h - 110;
+    });
+    shown = pastHero && !atBooking && !modal && !covers;
+    groups.forEach((g) => {
+      if (g.classList.contains('is-visible') !== shown) g.classList.toggle('is-visible', shown);
+      g.inert = !shown;
+    });
+    shine();
   };
   let raf = 0;
   const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
