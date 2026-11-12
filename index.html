@@ -26,7 +26,7 @@
   <link rel="preload" as="image" href="img/about.webp" type="image/webp">
   <link rel="preload" href="fonts/literata-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/golostext-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=202611090404">
+  <link rel="stylesheet" href="css/styles.css?v=202611122106">
 
   <script type="application/ld+json">
 [
@@ -196,24 +196,20 @@
       </div>
     </section>
 
-    <!-- 2. Решение: вы по адресу. Слева — как сейчас, справа — что меняется после работы -->
+    <!-- 2. Боли: один человек — уже зарабатывает, а доход упёрся. Только узнавание, без обещаний (результат — в блоке #result) -->
     <section class="section solution" id="solution" aria-labelledby="solution-title">
       <div class="wrap">
-        <!-- Пары «сейчас → после работы»: каждой боли напротив её результат -->
         <h2 class="h2 pain-title" id="solution-title">Со стороны кажется, что у тебя всё в порядке.</h2>
         <p class="lead pain-lead">Только ты знаешь, сколько сил уходит, чтобы это так выглядело.</p>
-        <div class="compare">
-          <p class="compare-head" aria-hidden="true"><span>Сейчас</span><span>После работы со мной</span></p>
-          <ul class="compare-list">
-            <li><span class="now">Когда у тебя спрашивают, сколько стоит твоя услуга, всё внутри сжимается. Тебе комфортнее выполнять работу, чем называть цену</span><span class="after"><span class="sr">После работы со мной</span> Ты уверенно называешь цену, легко предлагаешь свою услугу. Легко отказываешь тем, кому ты не по карману</span></li>
-            <li><span class="now">У тебя есть желания, но внутри каждая клетка знает, что вряд ли получится</span><span class="after"><span class="sr">После работы со мной</span> Каждая клетка знает, что ты имеешь полное право брать то, что хочешь</span></li>
-            <li><span class="now">Откладываешь задачи, которые очевидно ведут к результату, отвлекаешься, избегаешь</span><span class="after"><span class="sr">После работы со мной</span> Твой фокус и эффективность работают на тебя</span></li>
-            <li><span class="now">Твой уровень дохода на протяжении всей жизни <span style="white-space:nowrap">плюс-минус</span> одинаковый, но с годами его всё сложнее удерживать</span><span class="after"><span class="sr">После работы со мной</span> Привычная сумма перестаёт быть пределом. Ты становишься увереннее, дороже и успешнее</span></li>
-            <li><span class="now">Проходишь платные курсы, учишься, но действовать продолжаешь как раньше</span><span class="after"><span class="sr">После работы со мной</span> Ты применяешь свои навыки и знания без ограничений. Это повышает качество всей твоей жизни</span></li>
-          </ul>
-        </div>
-        <p class="pain-turn">Узнаёшь себя хотя бы в двух строках? Значит, внутри тебя работает программа, которая ограничивает твои возможности. Я найду её и поправлю код вместе с тобой!</p>
-        <div class="gains-cta"><a data-umami-event="Переход к записи" data-umami-event-place="после болей" class="btn" href="#booking">Пройти диагностику</a></div>
+        <ul class="pain-list pain-list--one">
+          <li>Доход годами держится примерно на одной отметке, а удерживать её с каждым годом всё тяжелее.</li>
+          <li>Когда спрашивают, сколько стоит твоя работа, внутри всё сжимается. Сделать работу проще, чем назвать за неё цену.</li>
+          <li>Начинаешь проекты с вдохновением и бросаешь, не дойдя до первых денег. А потом появляется новая идея.</li>
+          <li>Крупная сумма приходит и быстро уходит, будто деньги не твои.</li>
+          <li>Курсы, книги, коучинг&nbsp;— знаний много, а доход ведёт себя как раньше.</li>
+        </ul>
+        <p class="pain-turn">Узнаёшь себя хотя бы в двух строках? Дело не в рынке и не в знаниях.<br>Это одна внутренняя настройка, и её можно найти.</p>
+        <div class="gains-cta"><a data-umami-event="Переход к записи" data-umami-event-place="solution" class="btn" href="#booking">Хочу найти причину</a></div>
         <!-- Надпись логотипа: на телефоне показывается в конце блока, после вывода -->
         <p class="brand-intro"><b>German Trenin</b><span>Гипнотерапевт · <span class="nowrap">Финансовый психолог онлайн</span></span></p>
       </div>
@@ -258,6 +254,18 @@
             <p>Сессия заканчивается, а новая настройка остаётся с тобой: в решениях, в ценах, в отношении к деньгам и к отдыху. Её не нужно поддерживать усилием.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Что меняется: результат работы — три короткие строки, без кнопки (дальше сразу отзывы) -->
+    <section class="section result" id="result" aria-labelledby="result-title">
+      <div class="wrap">
+        <h2 class="h2" id="result-title">Что меняется</h2>
+        <ul class="result-list">
+          <li>Называешь цену спокойно и не оправдываешься.</li>
+          <li>Рост перестаёт откатываться назад.</li>
+          <li>Делаешь главное, а не всё, кроме него.</li>
+        </ul>
       </div>
     </section>
 
@@ -414,7 +422,7 @@
     <button type="button" class="btn btn--small" id="viewer-close">Закрыть</button>
   </dialog>
 
-  <script src="js/main.js?v=202611082358"></script>
+  <script src="js/main.js?v=202611122106"></script>
   <script src="js/circuits.js" defer></script>
 </body>
 </html>
