@@ -178,3 +178,37 @@ document.querySelectorAll('.js-mail').forEach((a) => {
   a.href = 'mailto:' + addr;
   a.textContent = addr;
 });
+
+// ===== Закреплённая панель связи на телефоне =====
+// Видна, когда кнопка «Хочу найти причину» первого экрана осталась выше экрана; прячется, когда на экране блок #booking
+// (там свои такие же кнопки), в открытом меню и пока открыт видеоотзыв (#mini) или диплом (#viewer).
+// Положение считаем по прокрутке (а не IntersectionObserver): так работает и при резком переходе по якорю.
+(() => {
+  const bar = document.getElementById('contact-bar');
+  const heroBtn = document.querySelector('.cover .cta-row .btn');
+  const booking = document.getElementById('booking');
+  if (!bar || !heroBtn || !booking) return;
+  document.body.classList.add('has-contact-bar');
+  const mini = document.getElementById('mini');
+  const viewer = document.getElementById('viewer');
+  const header = document.querySelector('.header');
+  const update = () => {
+    const h = window.innerHeight;
+    const pastHero = heroBtn.getBoundingClientRect().bottom < 0;
+    const b = booking.getBoundingClientRect();
+    const atBooking = b.top < h * 0.75 && b.bottom > h * 0.25;
+    const modal = (mini && !mini.hidden) || (viewer && viewer.open) || (header && header.classList.contains('menu-open'));
+    const show = pastHero && !atBooking && !modal;
+    if (bar.classList.contains('is-visible') !== show) bar.classList.toggle('is-visible', show);
+    bar.inert = !show;
+  };
+  let raf = 0;
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  const mo = new MutationObserver(update);
+  if (mini) mo.observe(mini, { attributes: true, attributeFilter: ['hidden'] });
+  if (viewer) mo.observe(viewer, { attributes: true, attributeFilter: ['open'] });
+  if (header) mo.observe(header, { attributes: true, attributeFilter: ['class'] });
+  update();
+})();

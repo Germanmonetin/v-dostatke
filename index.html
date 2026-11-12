@@ -26,7 +26,7 @@
   <link rel="preload" as="image" href="img/about.webp" type="image/webp">
   <link rel="preload" href="fonts/literata-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/golostext-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=202611122114">
+  <link rel="stylesheet" href="css/styles.css?v=202611122136">
 
   <script type="application/ld+json">
 [
@@ -404,6 +404,19 @@
     </div>
   </footer>
 
+  <!-- Закреплённая панель связи на телефоне (до 768 px): появляется, когда кнопка первого экрана ушла из виду,
+       прячется у блока #booking, в открытом меню и пока открыт видеоотзыв или диплом (js/main.js) -->
+  <div class="contact-bar" id="contact-bar" aria-label="Связаться с Германом" inert>
+    <a class="cb-main" data-umami-event="Запись: бот" data-umami-event-place="панель" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">
+      <svg class="cb-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <span class="cb-text"><b>Бесплатный звонок</b><small>15 минут · выбрать время</small></span>
+    </a>
+    <a class="cb-wa" data-umami-event="WhatsApp" data-umami-event-place="панель" href="https://wa.me/message/7KPN7D6KELAUF1" target="_blank" rel="noopener">
+      <svg class="cb-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 2.8a9.2 9.2 0 0 0-7.9 13.9L2.9 21.2l4.6-1.2A9.2 9.2 0 1 0 12 2.8z"/><path fill="currentColor" d="M8.7 7.4c.2-.4.5-.4.8-.4h.6c.2 0 .4.1.5.4l.8 1.9c.1.2 0 .5-.1.7l-.6.7c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.7-.6c.2-.2.5-.2.7-.1l1.9.8c.3.1.4.3.4.5v.6c0 .3-.1.6-.4.8-.6.4-1.4.6-2.2.4-2.6-.6-4.9-2.9-5.5-5.5-.2-.8 0-1.6.5-2.1z"/></svg>
+      <span>Написать</span>
+    </a>
+  </div>
+
   <!-- Мини-плеер видеоотзывов: открывается в углу, а не на весь экран -->
   <div class="mini" id="mini" role="dialog" aria-label="Видеоотзыв" hidden>
     <video id="mini-video" playsinline controls preload="none"></video>
@@ -422,7 +435,7 @@
     <button type="button" class="btn btn--small" id="viewer-close">Закрыть</button>
   </dialog>
 
-  <script src="js/main.js?v=202611122106"></script>
+  <script src="js/main.js?v=202611122136"></script>
   <script src="js/circuits.js" defer></script>
 </body>
 </html>
