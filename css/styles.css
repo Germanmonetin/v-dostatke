@@ -184,6 +184,24 @@ button { font: inherit; color: inherit; }
 .pain-list--one { grid-template-columns: 1fr; max-width: 46em; margin-top: 36px; border-bottom: 1px solid var(--line); }
 .pain-list--one li { padding: 18px 0 18px 32px; font: 400 clamp(18px, 1.6vw, 21px)/1.5 var(--serif); color: var(--pine); }
 .pain-list--one li::before { top: 32px; width: 16px; height: 2px; }
+/* Боли: под каждой строкой медленно проходит мягкое красное облачко (радиальный градиент).
+   Строки идут волной сверху вниз; анимация работает, только пока список на экране (класс .is-live из js/main.js) */
+.pain-list--one li { isolation: isolate; }
+.pain-list--one li::after { content: ""; position: absolute; z-index: -1; top: 2px; bottom: 2px; left: -6%; width: 44%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(196, 66, 52, .22), rgba(196, 66, 52, .08) 55%, rgba(196, 66, 52, 0) 100%);
+  opacity: 0; transform: translateX(0); animation: pain-glow 9s ease-in-out infinite; animation-play-state: paused; }
+.pain-list--one.is-live li::after { animation-play-state: running; }
+.pain-list--one li:nth-child(2)::after { animation-delay: 1.8s; }
+.pain-list--one li:nth-child(3)::after { animation-delay: 3.6s; }
+.pain-list--one li:nth-child(4)::after { animation-delay: 5.4s; }
+.pain-list--one li:nth-child(5)::after { animation-delay: 7.2s; }
+@keyframes pain-glow {
+  0% { transform: translateX(0); opacity: 0; }
+  18% { opacity: 1; }
+  56% { opacity: 1; }
+  75%, 100% { transform: translateX(141%); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .pain-list--one li::after { display: none; } }
 /* «Что меняется» (#result): три тёмно-зелёные карточки, на телефоне в столбец */
 .result { background: var(--surface); }
 .result-list { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
