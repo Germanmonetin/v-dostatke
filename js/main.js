@@ -248,12 +248,3 @@ document.querySelectorAll('.js-mail').forEach((a) => {
   if (header) mo.observe(header, { attributes: true, attributeFilter: ['class'] });
   update();
 })();
-
-// ===== Боли: красное облачко под строками движется, только пока список на экране =====
-(() => {
-  const list = document.querySelector('.pain-list--one');
-  if (!list || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver((entries) => {
-    entries.forEach((e) => list.classList.toggle('is-live', e.isIntersecting));
-  }, { threshold: 0.15 }).observe(list);
-})();
