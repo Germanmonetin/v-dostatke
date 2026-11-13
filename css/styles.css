@@ -548,6 +548,13 @@ button { font: inherit; color: inherit; }
 .consent-btns button:hover { background: rgba(210, 174, 99, .14); }
 .consent-btns button:focus-visible { outline: 3px solid #F3EFE7; outline-offset: 2px; }
 @media (min-width: 769px) { .consent { left: 24px; right: auto; bottom: 24px; margin: 0; } }
+/* Телефон: компактный баннер — текст 13 px в 1–2 строки, кнопки в ряд по 40 px, высота около 100 px */
+@media (max-width: 768px) {
+  .consent { left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); padding: 8px 12px 8px; font-size: 13px; line-height: 1.3; }
+  .consent p { margin: 0 0 7px; }
+  .consent-btns { gap: 8px; }
+  .consent-btns button { min-height: 40px; padding: 4px 8px; font-size: 13.5px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .contact-bar, .contact-float, .contact-float a { transition: none; }

@@ -29,17 +29,26 @@
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = window.gtag || gtag;
 
-  /* ---------- 2а. Google Consent Mode v2: до выбора всё запрещено ---------- */
-  // Вызывается ДО загрузки тегов. Выбор посетителя хранится в localStorage ('granted' / 'denied').
+  /* ---------- 2а. Google Consent Mode v2 — ДО загрузки тегов ---------- */
+  // ЕЭЗ, Великобритания и Швейцария: до выбора всё запрещено. Остальные страны: разрешено по умолчанию.
+  // Выбор посетителя хранится в localStorage ('granted' / 'denied') и применяется сразу.
   var CONSENT_KEY = 'vd_consent';
   var consent = null;
   try { consent = localStorage.getItem(CONSENT_KEY); } catch (e) {}
   var GRANTED = { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' };
+  var DENIED = { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' };
   gtag('consent', 'default', {
     ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
-    wait_for_update: 500
+    wait_for_update: 500,
+    region: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU',
+      'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
   });
+  gtag('consent', 'default', GRANTED);
   if (consent === 'granted') gtag('consent', 'update', GRANTED);
+  if (consent === 'denied') gtag('consent', 'update', DENIED);
+  // Метка рекламного клика (gclid) передаётся в адресах и без cookie; рекламные данные без согласия обезличиваются
+  gtag('set', 'url_passthrough', true);
+  gtag('set', 'ads_data_redaction', true);
 
   if (gaOn) {
     var s = document.createElement('script');
@@ -124,35 +133,46 @@
   }, true);
 
   /* ---------- 6. Баннер согласия на cookie ---------- */
-  // Показывается, пока посетитель не выбрал. Пока он на экране, кнопки связи поднимаются над ним (--consent-offset).
+  // Не сразу: при первом из событий — прокрутили ниже первого экрана или прошло 8 с. Если выбор сохранён — не показываем.
+  // Пока баннер на экране, кнопки связи поднимаются над ним (--consent-offset).
   function consentBanner() {
     if (consent === 'granted' || consent === 'denied') return;
-    var box = document.createElement('div');
-    box.className = 'consent';
-    box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-label', 'Согласие на cookie');
-    box.innerHTML = '<p>Сайт использует cookie Google Analytics и Google Ads, чтобы понимать, откуда приходят посетители. ' +
-      '<a href="/privacy.html">Подробнее</a></p>' +
-      '<div class="consent-btns"><button type="button" data-consent="granted">Принять</button>' +
-      '<button type="button" data-consent="denied">Только необходимые</button></div>';
-    document.body.appendChild(box);
-    var root = document.documentElement;
-    var mobile = window.matchMedia('(max-width: 768px)');
-    function offset() {
-      root.style.setProperty('--consent-offset', mobile.matches && box.isConnected ? (box.offsetHeight + 12) + 'px' : '0px');
+    var shown = false, timer = 0;
+    function onScroll() { if (window.scrollY > window.innerHeight) show(); }
+    function show() {
+      if (shown) return;
+      shown = true;
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+      var box = document.createElement('div');
+      box.className = 'consent';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-label', 'Согласие на cookie');
+      box.innerHTML = '<p>Сайт использует cookie Google для статистики и рекламы. <a href="/privacy.html">Подробнее</a></p>' +
+        '<div class="consent-btns"><button type="button" data-consent="granted">Принять</button>' +
+        '<button type="button" data-consent="denied">Только необходимые</button></div>';
+      document.body.appendChild(box);
+      var root = document.documentElement;
+      var mobile = window.matchMedia('(max-width: 768px)');
+      function offset() {
+        root.style.setProperty('--consent-offset', mobile.matches && box.isConnected ? (box.offsetHeight + 12) + 'px' : '0px');
+      }
+      offset();
+      window.addEventListener('resize', offset);
+      box.addEventListener('click', function (ev) {
+        var btn = ev.target.closest ? ev.target.closest('button[data-consent]') : null;
+        if (!btn) return;
+        consent = btn.getAttribute('data-consent');
+        try { localStorage.setItem(CONSENT_KEY, consent); } catch (e) {}
+        gtag('consent', 'update', consent === 'granted' ? GRANTED : DENIED);
+        box.remove();
+        window.removeEventListener('resize', offset);
+        root.style.setProperty('--consent-offset', '0px');
+      });
     }
-    offset();
-    window.addEventListener('resize', offset);
-    box.addEventListener('click', function (ev) {
-      var btn = ev.target.closest ? ev.target.closest('button[data-consent]') : null;
-      if (!btn) return;
-      consent = btn.getAttribute('data-consent');
-      try { localStorage.setItem(CONSENT_KEY, consent); } catch (e) {}
-      if (consent === 'granted') gtag('consent', 'update', GRANTED);
-      box.remove();
-      window.removeEventListener('resize', offset);
-      root.style.setProperty('--consent-offset', '0px');
-    });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    timer = setTimeout(show, 8000);
+    onScroll();
   }
 
   function onReady() { decorateBotLinks(); consentBanner(); }
