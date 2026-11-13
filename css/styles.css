@@ -155,8 +155,15 @@ button { font: inherit; color: inherit; }
 .faces button:hover { transform: translateY(-3px); position: relative; z-index: 1; }
 .faces img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
 .proof p { margin: 0; font-size: 15px; line-height: 1.45; }
-.creds { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 18px; font-size: 14px; color: var(--on-dark-muted); }
-.creds span::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); margin-right: 8px; vertical-align: middle; }
+/* Регалии: на компьютере три пункта в один ряд (длинный пункт переносится внутри себя), на телефоне — столбиком */
+.creds { display: flex; gap: 8px 20px; margin-top: 18px; font-size: 14px; line-height: 1.45; color: var(--on-dark-muted); }
+.creds span { position: relative; padding-left: 14px; flex: 0 1 auto; }
+.creds span:first-child { flex: none; }
+.cred-br { display: none; }
+/* Широкий экран: пункт про диплом ровно в две строки («…гипнотерапевт,» / «508 часов подготовки») */
+@media (min-width: 1181px) { .cred-br { display: inline; } .creds span:nth-child(2) { white-space: nowrap; flex: none; } }
+.creds span::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); }
+@media (max-width: 640px) { .creds { flex-direction: column; } }
 
 /* Фото в арке и две дуги-скобки вокруг: «открытая скобка» из метода */
 .arch { position: relative; padding: 0 8%; }
