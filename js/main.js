@@ -194,7 +194,8 @@ document.querySelectorAll('.js-mail').forEach((a) => {
   const viewer = document.getElementById('viewer');
   const header = document.querySelector('.header');
   const desktop = window.matchMedia('(min-width: 769px)');
-  const avoidOnDesktop = ['reviews', 'faq'].map((id) => document.getElementById(id)).filter(Boolean);
+  const float = document.querySelector('.contact-float');
+  const videoCards = () => document.querySelectorAll('#reviews .bubble');
   let shown = false;
   let shineReady = false;
   let shineDone = false;
@@ -218,11 +219,18 @@ document.querySelectorAll('.js-mail').forEach((a) => {
     const b = booking.getBoundingClientRect();
     const atBooking = b.top < h * 0.75 && b.bottom > h * 0.25;
     const modal = (mini && !mini.hidden) || (viewer && viewer.open) || (header && header.classList.contains('menu-open'));
-    // На компьютере кнопки в правом нижнем углу: не закрываем видеоотзывы и вопросы
-    const covers = desktop.matches && avoidOnDesktop.some((el) => {
-      const r = el.getBoundingClientRect();
-      return r.top < h - 20 && r.bottom > h - 110;
-    });
+    // На компьютере кнопки в правом нижнем углу прячутся, только если реально легли бы на видеоотзыв
+    // (карточку с кнопкой плеера). Положение берём без анимации появления: offsetTop/Left не учитывают transform.
+    let covers = false;
+    if (desktop.matches && float) {
+      const m = 8;
+      const fTop = float.offsetTop - m, fBottom = float.offsetTop + float.offsetHeight + m;
+      const fLeft = float.offsetLeft - m, fRight = float.offsetLeft + float.offsetWidth + m;
+      for (const card of videoCards()) {
+        const r = card.getBoundingClientRect();
+        if (r.top < fBottom && r.bottom > fTop && r.left < fRight && r.right > fLeft) { covers = true; break; }
+      }
+    }
     shown = pastHero && !atBooking && !modal && !covers;
     groups.forEach((g) => {
       if (g.classList.contains('is-visible') !== shown) g.classList.toggle('is-visible', shown);

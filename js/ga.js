@@ -133,16 +133,16 @@
   }, true);
 
   /* ---------- 6. Баннер согласия на cookie ---------- */
-  // Не сразу: при первом из событий — прокрутили ниже первого экрана или прошло 8 с. Если выбор сохранён — не показываем.
+  // Не сразу: только после того, как человек прокрутил страницу больше чем на 300 px (таймера нет —
+  // пока человек на первом экране, баннера нет). Если выбор сохранён — не показываем.
   // Пока баннер на экране, кнопки связи поднимаются над ним (--consent-offset).
   function consentBanner() {
     if (consent === 'granted' || consent === 'denied') return;
-    var shown = false, timer = 0;
-    function onScroll() { if (window.scrollY > window.innerHeight) show(); }
+    var shown = false;
+    function onScroll() { if (window.scrollY > 300) show(); }
     function show() {
       if (shown) return;
       shown = true;
-      clearTimeout(timer);
       window.removeEventListener('scroll', onScroll);
       var box = document.createElement('div');
       box.className = 'consent';
@@ -171,7 +171,6 @@
       });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    timer = setTimeout(show, 8000);
     onScroll();
   }
 
