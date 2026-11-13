@@ -568,3 +568,20 @@ button { font: inherit; color: inherit; }
   .is-shine::before { animation: none; }
 }
 
+/* ===== Кнопка «Полезно» под статьёй (js/likes.js) ===== */
+.likes { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin: 36px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+.likes[hidden] { display: none; }
+.likes-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 18px; border: 1.5px solid var(--gold); border-radius: 999px;
+  background: transparent; color: var(--pine); font: 500 16px/1 var(--sans); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
+.likes-btn:hover { background: rgba(210, 174, 99, .12); }
+.likes-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.likes-heart { font-size: 18px; color: var(--gold); line-height: 1; }
+.likes-count { font-variant-numeric: tabular-nums; }
+.likes-count:empty { display: none; }
+.likes-count::before { content: "·"; margin-right: 8px; opacity: .5; }
+.likes-btn.is-liked { background: var(--gold); color: #1A241F; cursor: default; }
+.likes-btn.is-liked .likes-heart { color: #1A241F; }
+.likes-btn.is-pop { animation: likes-pop .35s ease; }
+@keyframes likes-pop { 40% { transform: scale(1.08); } }
+.likes-note { font-size: 14px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .likes-btn.is-pop { animation: none; } }

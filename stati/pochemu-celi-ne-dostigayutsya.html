@@ -20,7 +20,7 @@
   <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
   <link rel="preload" href="../fonts/literata-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/golostext-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/styles.css?v=202611132131">
+  <link rel="stylesheet" href="../css/styles.css?v=202611132255">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,7 +38,7 @@
   <!-- Счётчик посещений Umami (без cookie). Считает только на v-dostatke.com: просмотры с компьютера разработчика не попадают в статистику -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
   <!-- Google Analytics 4 + события кликов по мессенджерам (ID задаётся в js/ga.js) -->
-  <script src="../js/ga.js?v=202611132131"></script>
+  <script src="../js/ga.js?v=202611132255"></script>
 </head>
 <body>
   <header class="header">
@@ -110,6 +110,11 @@
       <p>Желание никуда не исчезло. Его когда-то приглушили. А свет, который приглушили, можно снова сделать ярким.</p>
       <p class="article-sign">— Герман, Ваш финансовый психолог онлайн</p>
 
+      <div class="likes" data-likes="pochemu-celi-ne-dostigayutsya" hidden>
+        <button type="button" class="likes-btn" aria-pressed="false" data-umami-event="Полезно" data-umami-event-place="pochemu-celi-ne-dostigayutsya"><span class="likes-heart" aria-hidden="true">♥</span><span class="likes-label">Полезно</span><span class="likes-count"></span></button>
+        <span class="likes-note" aria-live="polite">Отметьте, если статья была полезной</span>
+      </div>
+
       <aside class="article-cta">
         <h2>Узнайте, что приглушило ваши желания</h2>
         <p>На диагностической сессии вы увидите, когда и почему хотеть стало небезопасно и что держит в полутьме ваш доход. Первый шаг — бесплатная ознакомительная беседа на 15 минут. Или начните с чек-листа «Внутренний барьер успеха»: 10 признаков, 5 минут.</p>
@@ -134,5 +139,6 @@
     </div>
   </footer>
   <script src="../js/circuits.js" defer></script>
+  <script src="../js/likes.js?v=202611132255" defer></script>
 </body>
 </html>
