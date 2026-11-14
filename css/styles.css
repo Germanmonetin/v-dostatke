@@ -205,7 +205,10 @@ button { font: inherit; color: inherit; }
 .pain-lead { color: var(--pine); font-size: clamp(20px, 1.9vw, 24px); }
 /* Пары: слева боль (крупно), справа на овсяной полосе — что меняется после работы */
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.gains-cta { margin-top: 32px; }
+.gains-cta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+/* Вторая кнопка на светлом фоне: контур, чтобы не спорить с основной */
+.btn--line { background: transparent; color: var(--sage-deep); border: 1.5px solid var(--sage-deep); padding: 14.5px 24px; }
+.btn--line:hover { background: rgba(52, 80, 63, .08); }
 
 /* ---------- Почему знания не помогают ---------- */
 .why .lead + .lead { margin-top: 18px; }
@@ -428,6 +431,7 @@ button { font: inherit; color: inherit; }
   .cta-row .btn { text-align: center; }
   /* Одиночные кнопки после блоков — по центру */
   .why-cta, .gains-cta, .steps-cta, .mission-cta, .channel-link { text-align: center; }
+  .gains-cta { flex-direction: column; align-items: stretch; } .gains-cta .btn { text-align: center; }
   .cta-note { text-align: center; }
   .diplomas { grid-template-columns: repeat(2, 1fr); }
   .phase--mid { padding: 28px 40px; }
