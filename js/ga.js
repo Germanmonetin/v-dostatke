@@ -125,7 +125,12 @@
     var href = a.href, target = a.getAttribute('target') || '_self', opened = false;
     function go() {
       if (opened) return; opened = true;
-      if (target === '_blank') { var w = window.open(href, '_blank', 'noopener'); if (!w) location.href = href; }
+      // Без 'noopener' в window.open: с ним браузер всегда возвращает null, и сайт уходил вслед за новой вкладкой.
+      // Связь с новой вкладкой обрываем вручную; если всплывающие окна запрещены — открываем в этой же вкладке.
+      if (target === '_blank') {
+        var w = window.open(href, '_blank');
+        if (w) { try { w.opener = null; } catch (e) {} } else location.href = href;
+      }
       else location.href = href;
     }
     gtag('event', 'conversion', { send_to: ADS_CONVERSION, event_label: name, event_callback: go });
