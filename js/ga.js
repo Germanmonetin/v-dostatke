@@ -70,6 +70,7 @@
     if (/t\.me\/Arhitector_Resursa_bot/i.test(href)) return 'click_bot';
     if (/t\.me\/germanprooff/i.test(href)) return 'click_telegram';
     if (/t\.me\/Arhitector_Resursa(\/|$|\?)/i.test(href)) return 'click_channel';
+    if (/chek-list\/?$/.test(href.split('?')[0].split('#')[0])) return 'click_checklist';
     return null;
   }
 
@@ -117,7 +118,7 @@
       utm_campaign: utm.utm_campaign || undefined,
       utm_content: utm.utm_content || undefined
     });
-    if (!ADS_CONVERSION || name === 'click_channel') return;
+    if (!ADS_CONVERSION || name === 'click_channel' || name === 'click_checklist') return;
 
     /* Конверсия Google Ads: сначала отправить, потом открыть мессенджер.
        На телефоне t.me/wa.me уводят в приложение мгновенно — beacon может не успеть. */

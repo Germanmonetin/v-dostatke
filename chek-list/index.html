@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="../css/styles.css?v=202611141603">
   <script defer src="https://cloud.umami.is/script.js" data-website-id="7bdfb29e-c658-4d06-9bcd-c097f2b61166" data-domains="v-dostatke.com"></script>
   <!-- Google Analytics 4 + события кликов по мессенджерам (ID задаётся в js/ga.js) -->
-  <script src="../js/ga.js?v=202611140132"></script>
+  <script src="../js/ga.js?v=202611141847"></script>
   <style>
     /* Чек-лист: узкая колонка, каждый признак — карточка со шкалой из 4 ответов; результат — тёмная панель после подсчёта */
     .chk .wrap { max-width: 760px; }
@@ -104,7 +104,7 @@
       <nav class="crumbs" aria-label="Навигация"><a href="../">Главная</a> / Чек-лист</nav>
       <span class="eyebrow">Чек-лист · 10 признаков · 5 минут</span>
       <h1>Почему доход упёрся</h1>
-      <p class="intro">Доход растёт ровно до той суммы, которую вы себе внутренне разрешаете. Этот чек-лист показывает, есть ли у вас такой запрет, насколько он сильный и от чего именно он вас защищает.</p>
+      <p class="intro">10 признаков того, что доход упирается не&nbsp;в&nbsp;рынок, а&nbsp;в&nbsp;настройку внутри. Отметьте, что про вас, и&nbsp;узнайте, есть ли у&nbsp;вас внутренний запрет на&nbsp;деньги, насколько он сильный и&nbsp;от&nbsp;чего именно он защищает.</p>
       <div class="rules">
         <p><b>Как проходить.</b> Читайте описание признака и выбирайте ответ. Отвечайте не «как правильно», а как есть на самом деле за последний год. После ответа появится вопрос себе: над ним стоит подумать, отвечать на него не нужно.</p>
         <p>Четыре варианта ответа: от «не про меня» до «это я». Чек-лист анонимный: имени и контактов он не спрашивает, а я вижу только общую статистику ответов.</p>
@@ -134,7 +134,7 @@
         </div>
         <div class="lead-cluster" id="rLead"><b>Главная защита</b><p></p></div>
         <div class="chk-actions">
-          <a data-umami-event="Запись: бот" data-umami-event-place="результат чек-листа" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">Записаться на бесплатный звонок · 15 минут</a>
+          <a data-umami-event="Запись: Telegram" data-umami-event-place="результат чек-листа" class="btn btn--gold" href="https://t.me/Arhitector_Resursa_bot?start=intro_site" target="_blank" rel="noopener">Записаться на бесплатный звонок · 15 минут</a>
           <span class="hint">Расскажете о своём результате, я честно скажу, с чем здесь можно работать, а с чем нет.</span>
           <button class="btn btn--ghost" id="reset" type="button">Пройти заново</button>
         </div>
@@ -255,7 +255,7 @@
     answers[i] = +e.target.value;
     try{ localStorage.setItem(KEY, JSON.stringify(answers)); }catch(_){}
     paint();
-    if(first) stat('start');
+    if(first){ stat('start'); if(window.umami) umami.track('Чек-лист: начат'); if(window.gtag) gtag('event','checklist_start'); }
     // После ответа под карточкой появляется «вопрос себе» — показываем его, а не перепрыгиваем к следующему признаку
     document.getElementById('p'+i).scrollIntoView({behavior:'smooth',block:'nearest'});
   });
@@ -292,6 +292,7 @@
     R.scrollIntoView({behavior:'smooth',block:'start'});
     if(window.umami) umami.track('Чек-лист: результат', {zone: zone.name, score: total});
     stat('finish', {answers: answers.slice()});
+    if(window.gtag) gtag('event','checklist_complete', {zone: zone.name, score: total});
   }
   calc.addEventListener('click', score);
   document.querySelector('#result a[href*="t.me/Arhitector_Resursa_bot"]').addEventListener('click', ()=>stat('booked'));
