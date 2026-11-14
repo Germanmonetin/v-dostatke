@@ -473,6 +473,8 @@ button { font: inherit; color: inherit; }
 .article figure img { width: 100%; height: auto; border-radius: 6px; }
 .article figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); }
 .article p, .article li { line-height: 1.75; }
+.article .wrap > ol { padding-left: 1.3em; }
+.article .wrap > ol > li + li { margin-top: 14px; }
 .article h2 { font: 400 clamp(24px, 3vw, 30px)/1.2 var(--serif); margin: 44px 0 14px; }
 .article blockquote { margin: 28px 0; padding-left: 22px; border-left: 2px solid var(--gold); font: italic 400 21px/1.5 var(--serif); }
 .toc { margin: 28px 0; padding: 18px 22px; background: var(--oat); border-radius: 6px; }
