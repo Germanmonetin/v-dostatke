@@ -137,6 +137,11 @@ button { font: inherit; color: inherit; }
 .cover .lead { color: var(--on-dark-muted); margin: 0 0 34px; }
 /* Первая фраза подзаголовка — крючок: светлее и чуть крупнее основного текста */
 .cover .lead--hook { margin-bottom: 14px; color: #F3EFE7; font: italic 400 clamp(20px, 1.9vw, 24px)/1.4 var(--serif); text-wrap: pretty; }
+/* Первый экран: три признака под подзаголовком и вывод */
+.hook-list { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; }
+.hook-list li { position: relative; padding-left: 26px; color: #E6E2D8; font: 400 clamp(17px, 1.5vw, 19px)/1.45 var(--serif); }
+.hook-list li::before { content: ""; position: absolute; left: 0; top: .72em; width: 14px; height: 1.5px; background: var(--gold-light); }
+.hook-turn { margin: 0 0 22px; color: var(--gold-light); font: italic 400 clamp(18px, 1.6vw, 21px)/1.4 var(--serif); }
 /* Фото начинается сразу под заголовком, чуть правее, и уходит в нижний край обложки */
 .cover-photo { grid-area: photo; position: relative; margin: 0; padding: 0 12% 0 14%; align-self: end; }
 .cover-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%; border-radius: 999px 999px 0 0; filter: saturate(.9);
@@ -587,3 +592,12 @@ button { font: inherit; color: inherit; }
 @keyframes likes-pop { 40% { transform: scale(1.08); } }
 .likes-note { font-size: 14px; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .likes-btn.is-pop { animation: none; } }
+
+/* Телефон: первый экран с тремя признаками — фото чуть меньше, плотнее отступы, чтобы кнопка была видна сразу */
+@media (max-width: 640px) {
+  .cover-photo { width: 50%; margin-top: 10px; }
+  .cover .lead--hook { margin-bottom: 10px; font-size: 19px; }
+  .hook-list { gap: 4px; margin-bottom: 10px; }
+  .hook-list li { font-size: 16.5px; line-height: 1.4; }
+  .hook-turn { margin-bottom: 16px; font-size: 18px; }
+}
