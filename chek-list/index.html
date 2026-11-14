@@ -39,7 +39,10 @@
     .sign .tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
     .chk .sign h3 { margin: 4px 0 0; font: 400 clamp(21px, 2.6vw, 25px)/1.25 var(--serif); color: var(--pine); }
     .sign .desc { margin: 14px 0 0; }
-    .probe { margin-top: 14px; padding: 10px 16px; border-left: 2px solid var(--gold); background: var(--oat); font-size: 16px; }
+    .probe { margin-top: 16px; padding: 10px 16px; border-left: 2px solid var(--gold); background: var(--oat); font-size: 16px; animation: probe-in .35s ease; }
+    .probe[hidden] { display: none; }
+    .probe small { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+    @keyframes probe-in { from { opacity: 0; transform: translateY(-4px); } }
     .probe b { display: block; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
     .scale { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
     .scale label { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; padding: 8px 6px; border: 1.5px solid var(--line); border-radius: 6px; cursor: pointer; text-align: center; font-size: 14px; font-weight: 500; line-height: 1.2; transition: border-color .15s, background .15s, color .15s; user-select: none; }
@@ -85,7 +88,7 @@
       .clusters { grid-template-columns: 1fr; }
       .chk-actions .btn { align-self: stretch; text-align: center; }
     }
-    @media (prefers-reduced-motion: reduce) { .chk-bar i, .meter b { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { .chk-bar i, .meter b { transition: none; } .probe { animation: none; } }
   </style>
 </head>
 <body>
@@ -103,8 +106,8 @@
       <h1>Внутренний барьер успеха</h1>
       <p class="intro">Доход растёт ровно до той суммы, которую вы себе внутренне разрешаете. Этот чек-лист показывает, есть ли у вас такой запрет, насколько он сильный и от чего именно он вас защищает.</p>
       <div class="rules">
-        <p><b>Как проходить.</b> Читайте описание признака, потом вопрос себе. Отвечайте не «как правильно», а как есть на самом деле за последний год.</p>
-        <p>Четыре варианта ответа: от «не про меня» до «это я». Ответы остаются только в вашем браузере, никуда не отправляются.</p>
+        <p><b>Как проходить.</b> Читайте описание признака и выбирайте ответ. Отвечайте не «как правильно», а как есть на самом деле за последний год. После ответа появится вопрос себе: над ним стоит подумать, отвечать на него не нужно.</p>
+        <p>Четыре варианта ответа: от «не про меня» до «это я». Чек-лист анонимный: имени и контактов он не спрашивает, а я вижу только общую статистику ответов.</p>
       </div>
 
       <div class="chk-progress" aria-live="polite">
@@ -212,12 +215,24 @@
   <li class="sign" id="s${i}">
     <header><span class="num">${i+1}</span><div><span class="tag">${s.tag}</span><h3>${s.t}</h3></div></header>
     <p class="desc">${s.d}</p>
-    <div class="probe"><b>Вопрос себе</b>${s.q}</div>
     <div class="scale" role="radiogroup" aria-label="Насколько это про вас">
       ${OPTS.map(([l,v])=>`<label><input type="radio" name="q${i}" id="q${i}v${v}" value="${v}"><span>${l}</span><small>${v} ${v==='1'?'балл':(v==='0'?'баллов':'балла')}</small></label>`).join('')}
     </div>
+    <div class="probe" id="p${i}" hidden aria-live="polite"><b>Вопрос себе</b>${s.q}<small>Отвечать не нужно — просто задержитесь на нём на минуту.</small></div>
   </li>`).join('');
 
+  /* Анонимная статистика прохождений → сервер Германа (код: репозиторий -workspace, projects/likes). Ни имени, ни контактов. */
+  const STAT_API = ['https://api.v-dostatke.com', 'https://likes.45-77-193-51.sslip.io', 'https://likes.45.77.193.51.nip.io'];
+  const RUN_KEY = 'vd-checklist-run';
+  const newRun = () => { const a = new Uint8Array(16); crypto.getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2, '0')).join(''); };
+  let run = null; try { run = localStorage.getItem(RUN_KEY); } catch (_) {}
+  if (!run || !/^[a-f0-9]{32}$/.test(run)) { run = newRun(); try { localStorage.setItem(RUN_KEY, run); } catch (_) {} }
+  async function stat(action, extra) {
+    const body = JSON.stringify(Object.assign({ run }, extra || {}));
+    for (const base of STAT_API) {
+      try { const r = await fetch(base + '/quiz/' + action, { method: 'POST', body, keepalive: true, headers: { 'Content-Type': 'text/plain' } }); if (r.ok || r.status < 500) return; } catch (_) {}
+    }
+  }
   const answers = Array(SIGNS.length).fill(null);
   const calc = document.getElementById('calc');
   const KEY = 'vd-checklist-v1';
@@ -231,15 +246,18 @@
     calc.disabled = n!==SIGNS.length;
     document.getElementById('calcHint').textContent = n===SIGNS.length ? 'Считаем сумму баллов и смотрим, от чего вас защищает запрет' : `Осталось ответить: ${SIGNS.length-n}`;
     document.querySelectorAll('.scale label').forEach(l=>l.classList.toggle('on', l.querySelector('input').checked));
+    answers.forEach((a,i)=>{ document.getElementById('p'+i).hidden = a===null; });
   }
   list.addEventListener('change', e=>{
     if(e.target.type!=='radio') return;
     const i = +e.target.name.slice(1);
+    const first = answers.every(a=>a===null);
     answers[i] = +e.target.value;
     try{ localStorage.setItem(KEY, JSON.stringify(answers)); }catch(_){}
     paint();
-    const next = answers.findIndex(a=>a===null);
-    if(next>i && next!==-1 && window.innerWidth<700){ document.getElementById('s'+next).scrollIntoView({behavior:'smooth',block:'start'}); }
+    if(first) stat('start');
+    // После ответа под карточкой появляется «вопрос себе» — показываем его, а не перепрыгиваем к следующему признаку
+    document.getElementById('p'+i).scrollIntoView({behavior:'smooth',block:'nearest'});
   });
 
   try{
@@ -273,12 +291,15 @@
     R.hidden = false;
     R.scrollIntoView({behavior:'smooth',block:'start'});
     if(window.umami) umami.track('Чек-лист: результат', {zone: zone.name, score: total});
+    stat('finish', {answers: answers.slice()});
   }
   calc.addEventListener('click', score);
+  document.querySelector('#result a[href*="t.me/Arhitector_Resursa_bot"]').addEventListener('click', ()=>stat('booked'));
   document.getElementById('reset').addEventListener('click', ()=>{
     answers.fill(null);
     document.querySelectorAll('.scale input').forEach(r=>r.checked=false);
     try{ localStorage.removeItem(KEY); }catch(_){}
+    run = newRun(); try { localStorage.setItem(RUN_KEY, run); } catch (_) {}
     document.getElementById('result').hidden = true;
     paint();
     document.getElementById('s0').scrollIntoView({behavior:'smooth',block:'start'});
