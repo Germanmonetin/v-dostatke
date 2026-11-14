@@ -4,7 +4,7 @@
 (() => {
   const box = document.querySelector('[data-likes]');
   if (!box) return;
-  const API = window.VD_LIKES_API || ['https://likes.45-77-193-51.sslip.io', 'https://likes.45.77.193.51.nip.io'];
+  const API = window.VD_LIKES_API || ['https://api.v-dostatke.com', 'https://likes.45-77-193-51.sslip.io', 'https://likes.45.77.193.51.nip.io'];
   const slug = box.dataset.likes;
   const btn = box.querySelector('.likes-btn');
   const countEl = box.querySelector('.likes-count');
@@ -20,7 +20,7 @@
     for (const b of base ? [base] : API) {
       try {
         const ctrl = new AbortController();
-        const t = setTimeout(() => ctrl.abort(), 6000);
+        const t = setTimeout(() => ctrl.abort(), 4000);
         const r = await fetch(b + path, Object.assign({ signal: ctrl.signal }, opts));
         clearTimeout(t);
         if (r.ok || r.status === 429) { base = b; return r; }
