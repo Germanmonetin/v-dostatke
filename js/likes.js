@@ -14,6 +14,7 @@
   try { liked = localStorage.getItem(KEY) === '1'; } catch (e) {}
   let base = null;
   let count = 0;
+  const idleNote = noteEl.textContent; // текст подсказки берётся из разметки статьи («Отметьте…» / «Отметь…»)
 
   const call = async (path, opts) => {
     for (const b of base ? [base] : API) {
@@ -32,7 +33,7 @@
     countEl.textContent = count > 0 ? String(count) : '';
     btn.classList.toggle('is-liked', liked);
     btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
-    noteEl.textContent = liked ? 'Спасибо! Значит, пишу не зря.' : 'Отметьте, если статья была полезной';
+    noteEl.textContent = liked ? 'Спасибо! Значит, пишу не зря.' : idleNote;
   };
 
   call('/likes?slugs=' + encodeURIComponent(slug)).then(async (r) => {
